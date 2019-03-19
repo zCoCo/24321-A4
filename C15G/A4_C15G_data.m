@@ -3,7 +3,7 @@
 function T = A4_C15G_data()
     % Load in Data from Excel file (converted from .xls to .xlsx by doing a
     % "save-as" in Excel. Must be in same directory as folder.
-    T = ETable('A4_C15_G.xlsx', ["SampNum", "FanSpeed", "Ang", "FLift", "FDrag", "Hstat", "Tamb", "rho", "Veloc", "Re", "CL", "CD", "CD0", "CL0", "k", "Pdyn"]);
+    T = ETable('A4_C15_G.xlsx', ["SampNum", "FanSpeed", "Ang", "FLift", "FDrag", "Hstat", "Tamb", "rho", "Veloc", "Re", "CL", "CD", "CD0", "CDL", "k", "Pdyn"]);
     
     T.unitsList = ["","%", "$$^{\circ}$$","N", "N","mm","$$^{\circ}C$$", "$$^{kg}/_{m^{3}}$$","$$^{m}/_{s}$$","","","","","","","Pa"];
     
@@ -21,6 +21,6 @@ function T = A4_C15G_data()
     T.rename('CL', '$$C_{L}$$');
     T.rename('CD', '$$C_{D}$$');
     T.rename('CD0', '$$C_{D0}$$');
-    T.rename('CL0', '$$C_{L0}$$');
+    T.rename('CDL', '$$C_{DL}$$');
     T.rename('Pdyn', 'Dynamic Pressure [Pa]');
 end

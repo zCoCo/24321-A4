@@ -1,28 +1,42 @@
+function Fig1()
 tab = A4_C15G_data();
 
 % Compute Error in FLift as Std. Deviation at each Velocity Measurement:
 % (Multiply by binary matrix of valid regions and then use addition to
 % combine):
-tab.add('Error in Lift Force Measurement [N]','dFLift',...
-    zeros(size(tab.FLift)) ...
-);
 %     std( tab.FLift(ETable.is(tab.Veloc,5)) ) * ETable.is(tab.Veloc,5)...
 %     + std( tab.FLift(ETable.is(tab.Veloc,10)) ) * ETable.is(tab.Veloc,10)...
 %     + std( tab.FLift(ETable.is(tab.Veloc,15)) ) * ETable.is(tab.Veloc,15)...
 %     + std( tab.FLift(ETable.is(tab.Veloc,20)) ) * ETable.is(tab.Veloc,20)...
 %     + std( tab.FLift(ETable.is(tab.Veloc,25)) ) * ETable.is(tab.Veloc,25)...
 
-figure()
+
 %tab.plot('Veloc', 'FLift', ETable.within(tab.Ang, 0.12, 5));
 
-function plotAgainstVel(name)
+nameXs = ['Veloc','Veloc','Veloc'
+plotAgainstVel('FLift')
+plotAgainstVel('CL')
+plotAgainstVel('CD')
+
+function plotAgainst(nameX, nameY)
+    xdat = tab.get(nameX);
+    ydat = tab.get(nameY);
+    tab.add(char("Error in " + nameY),char("d"+nameY),...
+        std( ydat(ETable.is(xdat,5)) ) * ETable.is(xdat,5)...
+        + std( ydat(ETable.is(xdat,10)) ) * ETable.is(xdat,10)...
+        + std( ydat(ETable.is(xdat,15)) ) * ETable.is(xdat,15)...
+        + std( ydat(ETable.is(xdat,20)) ) * ETable.is(xdat,20)...
+        + std( ydat(ETable.is(xdat,25)) ) * ETable.is(xdat,25)...
+    );
+    figure()
     hold on
-    tab.errorAvgAtplot('Veloc', name, 'dFLift', ETable.within(tab.Ang, 0.12, 5), 'Veloc', 5,10,15,20,25);
-    tab.errorAvgAtplot('Veloc', name, 'dFLift', ETable.within(tab.Ang, 0.12, 10), 'Veloc', 5,10,15,20,25);
-    tab.errorAvgAtplot('Veloc', name, 'dFLift', ETable.within(tab.Ang, 0.12, 20), 'Veloc', 5,10,15,20,25);
-    tab.errorAvgAtplot('Veloc', name, 'dFLift', ETable.within(tab.Ang, 0.12, 30), 'Veloc', 5,10,15,20,25);
-    tab.errorAvgAtplot('Veloc', name, 'dFLift', ETable.inrange(tab.Ang, -0.1, 0.1), 'Veloc', 5,10,15,20,25);
-    legend({'$$\theta = 5^{\circ}$$','$$\theta = 10^{\circ}$$','$$\theta = 20^{\circ}$$','$$\theta = 30^{\circ}$$','$$\theta = 0^{\circ}$$'}, 'Location', 'NorthWest', 'Interpreter', 'latex');
+    tab.errorAvgAtplot(nameX, nameY, char("d" + nameY), ETable.inrange(tab.Ang, -0.1, 0.1), nameX, 6,10,15,20,25);
+    tab.errorAvgAtplot(nameX, nameY, char("d" + nameY), ETable.within(tab.Ang, 0.12, 5), nameX, 6,10,15,20,25);
+    tab.errorAvgAtplot(nameX, nameY, char("d" + nameY), ETable.within(tab.Ang, 0.12, 10), nameX, 6,10,15,20,25);
+    tab.errorAvgAtplot(nameX, nameY, char("d" + nameY), ETable.within(tab.Ang, 0.12, 20), nameX, 5,10,15,20,25);
+    tab.errorAvgAtplot(nameX, nameY, char("d" + nameY), ETable.within(tab.Ang, 0.12, 30), nameX, 5,10,15,20,25);
+    legend({'$$\theta = 0^{\circ}$$','$$\theta = 5^{\circ}$$','$$\theta = 10^{\circ}$$','$$\theta = 20^{\circ}$$','$$\theta = 30^{\circ}$$'}, 'Location', 'NorthWest', 'Interpreter', 'latex');
     hold off
 end
 %tab.caption({'Errors computed using std-dev of', 'all values measured at each V'});
+end
