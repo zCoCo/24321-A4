@@ -222,6 +222,7 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
         function STd = summary(obj, varargin)
             ST = obj.subtable(varargin{:});
             STd = ST.data;
+            % TODO: Transfer over each dynamicprop (.get, .set)
             disp('Summary Table:');
             disp(STd);
         end

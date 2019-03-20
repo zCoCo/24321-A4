@@ -8,14 +8,15 @@ function T = A4_C15G_velocData()
     T.unitsList = ["","$$^{\circ}$$","$$^{m}/_{s}$$","mm","mm","mm","mm","mm","mm","mm","mm","mm","mm","mm","mm","mm"];
     
     % Fetch Density of Air [kg m-3] from Other Table and Compute Error
-    rhoa = 0; drhoa = 0;
     T2 = A4_C15G_data();
+    rhoa = mean(T2.rho) * ones(size(T.N)); % populate with default value
+    drhoa = 2*std(T2.rho) * ones(size(T.N)); % populate with default value
     for ang = [0,5,10,19.8,30.3]
         for vel = [5.5 10 15 20 25]
             range1 = ETable.is(T.V, vel) & ETable.is(T.Ang, ang);
             range2 = ETable.within(T2.Veloc, 0.15, vel) & ETable.is(T2.Ang, ang);
-            rhoa = rhoa + mean(T2.rho(range2)) * range1;
-            drhoa = drhoa + 2*std(T2.rho(range2)) * range1;
+            rhoa(range1) = mean(T2.rho(range2)) * ones(sum(range1),1);
+            drhoa(range1) = 2*std(T2.rho(range2)) * ones(sum(range1),1);
         end
     end
     T.add('Density of Air, $$\rho_{a}$$ [$$^{kg}/_{m^{3}}$$', 'rhoa', rhoa);
@@ -37,9 +38,7 @@ function T = A4_C15G_velocData()
     for i = 1:12
         T.add(char("Total Pressure at Tapping " + i + " [Pa]"), char("P"+i), rhom .* g .* T.get(char("H"+i)) ./ 1000 );
         T.add(char("Dynamic Pressure at Tapping " + i + " [Pa]"), char("Pdyn"+i), abs(T.Pstat - T.get(char("P"+i))) );
-        T.add(char("Uncertainty in Dynamic Pressure at Tapping " + i + " [Pa]"), char("dPdyn"+i), ...
-            sqrt( T.get(char("P"+i)).^2 .* dP^2 + T.Pstat.^2 .* dP^2 ) ...
-        );
+        T.add(char("Uncertainty in Dynamic Pressure at Tapping " + i + " [Pa]"), char("dPdyn"+i), sqrt(2)*dP );
         T.add(char("Velocity at Tapping " + i + " [$$^{m}/_{s}$$"), char("v"+i), sqrt(2 .* T.get(char("Pdyn"+i)) ./ T.rhoa) );
         T.add(char("Uncertainty in Velocity at Tapping " + i + " [$$^{m}/_{s}$$"), char("dv"+i), ...
             sqrt(...
