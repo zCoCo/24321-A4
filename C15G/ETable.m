@@ -427,7 +427,11 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
         % Convenience function that returns whether the given value is
         % within 5% of the given value:
         function i = is(val, target)
-            i = ETable.within(val, 0.12, target);
+            if target ~= 0
+                i = ETable.within(val, 0.12, target);
+            else
+                i = ETable.inrange(val, -0.1, 0.1);
+            end
         end
         % Convenience Function that returns whether the given value is 
         % within the given range:

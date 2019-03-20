@@ -11,9 +11,9 @@ function T = A4_C15G_velocData()
     rhoa = 0; drhoa = 0;
     T2 = A4_C15G_data();
     for ang = [0,5,10,19.8,30.3]
-        for vel = [5.5 10 15 20 25]
-            range1 = ETable.is(T.V, vel) & ETable.is(T.Ang, ang);
-            range2 = ETable.within(T2.Veloc, 0.15, vel) & ETable.is(T2.Ang, ang);
+        for vel = [5 10 15 20 25]
+            range1 = ETable.within(T.V, 0.26, vel) * ETable.is(T1.Ang, ang);
+            range2 = ETable.within(T2.Veloc, 0.26, vel) * ETable.is(T2.Ang, ang);
             rhoa = rhoa + mean(T2.rho(range2)) * range1;
             drhoa = drhoa + 2*std(T2.rho(range2)) * range1;
         end
@@ -23,7 +23,7 @@ function T = A4_C15G_velocData()
     
     % Update Names (using latex syntax to pretify it):
     T.rename('Ang', 'Angle of Attack [deg]');
-    T.rename('V', 'Free Stream Velocity [$$^{m}/_{s}$$]');
+    T.rename('V', 'Air Velocity [$$^{m}/_{s}$$]');
     
     %% Constants:
     g = 9.81; % [m s-1] Gravitational Acceleration
@@ -44,8 +44,8 @@ function T = A4_C15G_velocData()
         T.add(char("Uncertainty in Velocity at Tapping " + i + " [$$^{m}/_{s}$$"), char("dv"+i), ...
             sqrt(...
                 + T.get(char("dPdyn"+i)).^2 ./ (2 .* T.rhoa .* T.get(char("Pdyn"+i))) ...
-                + T.drhoa.^2 .* T.get(char("Pdyn"+i)) ./ 2 ./ (T.rhoa .^ 3) ...
-            ) ...
+                + T.drhoa.^2 .* T.get(char("Pdyn"+i)) ./ 2 ./ (T.rhoa .^ 3)
+            );
         );
     end
 end
