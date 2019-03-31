@@ -1,0 +1,40 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[landscape]{geometry}
+
+\makeatletter
+\DeclareRobustCommand{\volume}{\text{\volumedash}V}
+\newcommand{\volumedash}{%
+	\makebox[0pt][l]{%
+		\ooalign{\hfil\hphantom{$\m@th V$}\hfil\cr\kern0.08em--\hfil\cr}%
+	}%
+}
+\makeatother
+
+\begin{document}
+	\hfill\break\break
+	\textbf{Streamline Fundamentals:}
+	Equation 4 of the assignment provides an equation for the determining the volumetric flow rate per unit depth between between two stream lines $\psi_{2}$ and $\psi_{1}$:
+	$$\dot{\volume}'=q=\psi_{2}-\psi_{1}$$
+	where $\psi$ is a constant value defining a given stream line which can be determined from models of the flow through an environment (such as around a cylinder), and $\psi_{2}$ has a greater $y$ value than $\psi_{1}$.
+	
+	\hfill\break\break
+	\textbf{Flow Velocities}:
+	Based on the above relations, assuming an incompressible fluid with constant volumetric flow rate through the system, $\dot{\volume}$, the average flow velocity between two stream lines $\psi_{2}$ and $\psi_{1}$ can be determined as:
+	$$U_{1,2}= \frac{\dot{\volume}}{\dot{\volume}'}=\frac{\dot{\volume}}{\psi_{2}-\psi_{1}}$$
+	\hfill\break\break
+	Accordingly, since, in uniform free flow (ie parallel horizontal streamlines), $\psi=U_{\infty}y$, the free-stream velocity can be measured as the average flow velocity between the two streamlines nearest the centerline at the entrance to the system, where the flow is closest to free flow and is at the free-stream velocity.
+	$$U_{\infty}= \frac{\dot{\volume}}{\dot{\volume}'}=\frac{\dot{\volume}}{\psi_{y>0}-\psi_{y=0}}=\frac{\dot{\volume}}{U_{\infty}(y_{1}-y_{0})}$$
+	$$\therefore U_{\infty}=\sqrt{\frac{\dot{\volume}}{y_{1}-y_{0}}}$$
+	
+	\hfill\break\break
+	\textbf{Cylinder Streamlines:}
+	Assuming inviscid flow ($\nabla^{2}\varphi=0$) and irrotational flow ($\nabla\times\vec{V}=0 \rightarrow \nabla^{2}\psi=0$) allowing for superposition of both potential and streamline equations, the assignment's equation 8 gives the equation for a streamline for flow around a submerged cylinder:
+	$$ \psi = U_{\infty}sin(\theta)\left(r-\frac{a^{2}}{r}\right)$$
+	where $\psi$ is a constant value defining a given stream line, $U_{\infty}$ is the free-stream flow velocity, $a$ is the radius of the cylinder, and ($r,$ $\theta$) are the polar coordinates of points along a streamline.
+	
+\end{document}
