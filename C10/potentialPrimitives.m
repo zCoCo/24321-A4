@@ -6,9 +6,9 @@ a = 1; % Radius of Any Cylinder
 K = 2*pi*Uinf*a^2 / 10; % Strength of Any Sink/Source
 
 rs = {... % Solutions to Streamline Functions as Polar Functions, Radius of Theta
-    @(th,c) - K .* sin(th) ./ 2 ./ pi ./ c ... % Doublet
+    %@(th,c) - K .* sin(th) ./ 2 ./ pi ./ c ... % Doublet
     @(th,c) (c - sign(c) .* (c.^2 + 4.*Uinf^2.*a^2.*sin(th).^2).^(1/2))./(2.*Uinf.*sin(th))... % Uniform Flow around Cylinder
-    @(th,c) sqrt(c * (1/1000) ./ sin(th) ./ cos(th)) % Flow around Sharp Bend
+    %@(th,c) sqrt(c * (1/1000) ./ sin(th) ./ cos(th)) % Flow around Sharp Bend
     };
 
 %% Plot 
