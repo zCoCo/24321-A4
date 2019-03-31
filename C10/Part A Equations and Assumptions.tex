@@ -40,8 +40,8 @@
 	
 	\hfill\break\break
 	\textbf{Flow Velocities}:
-	Based on the above relations, assuming an incompressible fluid with constant volumetric flow rate through the system, $\dot{\volume}$, the average flow velocity between two stream lines $\psi_{2}$ and $\psi_{1}$ can be determined as:
-	$$U_{1,2}= \frac{\dot{\volume}}{\dot{\volume}'}=\frac{\dot{\volume}}{\psi_{2}-\psi_{1}}$$
+	Based on the above relations, assuming an incompressible fluid, the average flow velocity between two stream lines $\psi_{2}$ and $\psi_{1}$ can be determined as:
+	$$U_{1,2}= \frac{\dot{\volume}'}{y_2-y_1}=\frac{\psi_{2}-\psi_{1}}{y_2-y_1}$$
 	
 	\hfill\break\break
 	\textbf{Cylinder Streamlines:}
@@ -49,9 +49,9 @@
 	$$ \psi = U_{\infty}sin(\theta)\left(r-\frac{a^{2}}{r}\right)$$
 	where $\psi$ is a constant value defining a given stream line, $U_{\infty}$ is the free-stream flow velocity, $a$ is the radius of the cylinder, and ($r,$ $\theta$) are the polar coordinates of points along a streamline.
 	\hfill\break\break
-	By definition, the equation for the streamline can be used to determine orthogonal components of the flow velocity. For the submerged cylinder, the assignment gives these as:
+	By definition, the equation for the streamline can be used to determine orthogonal components of the flow velocity. For the submerged cylinder, the assignment gives these as: 
 	$$u_{r}=\frac{1}{r}\left[\frac{\partial\psi}{\partial\theta}\right]=U_{\infty}cos(\theta)\left(1-\frac{a^2}{r^2}\right),
-	\;\;u_{\theta}=-\frac{1}{r}\left[\frac{\partial\psi}{\partial\theta}\right]=-U_{\infty}sin(\theta)\left(1+\frac{a^2}{r^2}\right)$$.
+	\;\;u_{\theta}=-\left[\frac{\partial\psi}{\partial\theta}\right]=-U_{\infty}sin(\theta)\left(1+\frac{a^2}{r^2}\right)$$.
 	\hfill\break
 	Accordingly, since $u_r$ and $u_\theta$ are orthogonal, the magnitude of the flow velocity along a streamline at a given point $(r,\theta)$ can be given by:
 	$$U(r,\theta)=\sqrt{u_r^2+u_\theta^2}=U_\infty\sqrt{\frac{\left(a^4-2\,\cos\left(2\,\theta\right)\,a^2\,r^2+r^4\right)}{r^4}}$$
