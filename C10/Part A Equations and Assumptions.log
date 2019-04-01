@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  31 MAR 2019 03:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  31 MAR 2019 23:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -256,20 +256,20 @@ Package: geometry 2018/03/24 v5.7 Page Geometry
 (./Part A Equations and Assumptions.aux)
 \openout1 = `"Part A Equations and Assumptions.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
 
 (/usr/local/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -302,7 +302,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box29
-Package hyperref Info: Link coloring OFF on input line 18.
+Package hyperref Info: Link coloring OFF on input line 20.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -312,9 +312,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count119
 )
-LaTeX Info: Redefining \ref on input line 18.
-LaTeX Info: Redefining \pageref on input line 18.
-LaTeX Info: Redefining \nameref on input line 18.
+LaTeX Info: Redefining \ref on input line 20.
+LaTeX Info: Redefining \pageref on input line 20.
+LaTeX Info: Redefining \nameref on input line 20.
 
 (./Part A Equations and Assumptions.out)
 (./Part A Equations and Assumptions.out)
@@ -356,80 +356,192 @@ LaTeX Info: Redefining \nameref on input line 18.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 21.
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--23
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--23
+
+ []
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 25.
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 21.
+LaTeX Font Info:    Try loading font information for U+msb on input line 25.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 19--26
+Overfull \hbox (15.04987pt too wide) in paragraph at lines 24--38
+\OT1/cmr/bx/n/12 -\OT1/cmr/m/n/12 The vol-u-met-ric flow rate through the sys-t
+em \OT1/cmr/m/it/12 for all ex-per-i-ments \OT1/cmr/m/n/12 was mea-sured to be 
+$[]$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--38
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 27--30
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 35--38
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 41--44
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
 
  []
 
 [1
 
 {/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 46--49
+Underfull \hbox (badness 10000) in paragraph at lines 42--44
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 49--53
+Underfull \hbox (badness 10000) in paragraph at lines 46--47
 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 58.
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--47
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
+
+ []
+
 [2]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 58.
+Underfull \hbox (badness 10000) in paragraph at lines 59--64
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 72--75
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 77--81
+
+ []
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 93--95
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 93--95
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 93--95
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 93--95
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 93--95
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 93--95
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 93--95
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 93--95
+
+ []
+
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 106--107
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 106--107
+
+ []
+
+[5]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 121.
+ [6]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 121.
  (./Part A Equations and Assumptions.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 58.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 58.
-Package rerunfilecheck Info: File `"Part A Equations and Assumptions".out' has 
-not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 58.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 121.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 121.
+
+
+Package rerunfilecheck Warning: File `"Part A Equations and Assumptions".out' h
+as changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `"Part A Equations and Assumptions".
+out':
+(rerunfilecheck)             Before: 55D498E1AFEDC3CD79563CA4C9EE3F92;562
+(rerunfilecheck)             After:  B37FCC0102E388EE699BD6ACFF37F343;492.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 121.
  ) 
 Here is how much of TeX's memory you used:
- 6332 strings out of 492649
- 91599 string characters out of 6129622
- 187568 words of memory out of 5000000
- 10158 multiletter control sequences out of 15000+600000
- 9584 words of font info for 37 fonts, out of 8000000 for 9000
+ 6374 strings out of 492649
+ 92106 string characters out of 6129622
+ 192586 words of memory out of 5000000
+ 10174 multiletter control sequences out of 15000+600000
+ 11725 words of font info for 44 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 28i,14n,28p,338b,330s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
-/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></u
-sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
-/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/lo
-cal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local
-/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
-texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
-xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on "Part A Equations and Assumptions.pdf" (2 pages, 104217 bytes
+ 31i,17n,33p,523b,336s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{subsection.1.7} has been referenced but does not 
+exist, replaced by a fixed one
+
+</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
+/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></u
+sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr
+/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/
+local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/l
+ocal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/loc
+al/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local
+/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/te
+xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texli
+ve/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
+e/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/
+2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2
+018/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on "Part A Equations and Assumptions.pdf" (6 pages, 141491 bytes
 ).
 PDF statistics:
- 57 PDF objects out of 1000 (max. 8388607)
- 42 compressed objects within 1 object stream
- 3 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 134 PDF objects out of 1000 (max. 8388607)
+ 111 compressed objects within 2 object streams
+ 25 named destinations out of 1000 (max. 500000)
+ 65 words of extra memory for PDF output out of 10000 (max. 10000000)
 

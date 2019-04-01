@@ -15,44 +15,107 @@
 }
 \makeatother
 
+\renewcommand*{\thesubsection}{\alph{subsection}.}
+
 \begin{document}
+	\section{Background and Theory}
 	\hfill\break\break
-	\textbf{Note:} \hfill\break
-	\textbf{-}The size of each square was measured to be $20.1mm\pm0.05mm$. The size of several squares on each image was measured in pixels and averaged to create a scaling factor between pixels and millimeters.
+	\subsection{Measurements:} 
 	\hfill\break
-	\textbf{-}The volumetric flow rate through the system \textit{for all experiments} was measured to be $\dot{\volume}=2.1 \frac{\textrm{gal}}{\textrm{min}}=132,000 \frac{mm^{3}}{s}$
+	\textbf{-}The volumetric flow rate through the system \textit{for all experiments} was measured to be $\mathbf{\dot{\volume}=2.1 \frac{\textrm{gal}}{\textrm{min}}=132,000 \frac{mm^{3}}{s}}$
 	\hfill\break
-	\textbf{-}The cylinder was measured to be $60.6mm\pm0.05mm$ in diameter.
+	\textbf{-}The spacing between dye injectors was found to be $\mathbf{s_{dye}=9.68mm\pm0.05mm}$.
+	\hfill\break
+	\textbf{-}The cylinder was measured to be $\mathbf{D=60.6mm\pm0.05mm}$ in diameter.
+	\hfill\break
+	\textbf{-}The width of the rectangular object in the direction perpendicular to the flow was measured to be\hfill\break $\mathbf{w=40.1mm\pm0.05mm}$.
+	\hfill\break
+	\textbf{-}The size of each square of the grid was measured to be $\mathbf{w_{sq}=20.1mm\pm0.05mm}$. The size of several squares on each image was measured in pixels and averaged to create a scaling factor between pixels and millimeters.
+	\hfill\break
+	\textbf{-}The separation distance between the interior of the glass pane and the base surface was measured to be $\mathbf{H=3.2mm\pm0.05mm}$ while the width of the inlet to the entire system was observed to be 24 squares wide; so, $\mathbf{B=482.4mm\pm1.2mm}$.
+	\hfill\break
+	\textbf{-}The separation distance between the flat plates when the rectangular object was placed in the stream was observed to be 12 squares, so  $\mathbf{s=241.2mm\pm0.6mm}$.
 	
 	\hfill\break\break
-	\textbf{Free-Stream Velocity:}
+	\subsection{Free-Stream Velocity:}
 	Assuming an incompressible fluid, the free-stream velocity, at the inlet to the system, can be expressed as:
 	$$U_{\infty}=\frac{\dot{\volume}}{A_{c}}$$
 	where, ${A_{c}}$ is the entire cross-sectional area between the glass plane and the base, perpendicular to the horizontal plane. \hfill\break
-	Since the plane was observed to be 24 squares wide and the glass was separated from the base surface by the thickness of the acrylic plates at $t_{plate}=3.2mm\pm0.05mm$, the free-stream velocity is:
 	$$U_{\infty}=\frac{132,000\frac{mm^{3}}{s}}{24*20.1mm * 3.2mm}=85.9\frac{mm}{s}$$
 	
 	\hfill\break\break
-	\textbf{Streamline Fundamentals:}
+	\subsection{Streamline Fundamentals:}
 	Equation 4 of the assignment provides an equation for the determining the volumetric flow rate per unit depth between between two stream lines $\psi_{2}$ and $\psi_{1}$:
-	$$\dot{\volume}'=q=\psi_{2}-\psi_{1}$$
-	where $\psi$ is a constant value defining a given stream line which can be determined from models of the flow through an environment (such as around a cylinder), and $\psi_{2}$ has a greater $y$ value than $\psi_{1}$.
+	\begin{equation}
+	\dot{\volume}'=q=\psi_{2}-\psi_{1}
+	\end{equation}
+	where $\psi$ is a constant value defining a given stream line which can be determined from models of the flow through an environment (such as around a cylinder), and $\psi_{2}$ has a greater value than $\psi_{1}$.
 	
 	\hfill\break\break
-	\textbf{Flow Velocities}:
+	\subsection{Flow Velocities:}
 	Based on the above relations, assuming an incompressible fluid, the average flow velocity between two stream lines $\psi_{2}$ and $\psi_{1}$ can be determined as:
-	$$U_{1,2}= \frac{\dot{\volume}'}{y_2-y_1}=\frac{\psi_{2}-\psi_{1}}{y_2-y_1}$$
+	\begin{equation}
+	U_{1,2}= \frac{\dot{\volume}'}{y_2-y_1}=\frac{\psi_{2}-\psi_{1}}{y_2-y_1}
+	\end{equation}
+	\hfill\break\break
+	Since, by definition, the value of $\psi$ is constant along a streamline, the value of $\Delta\psi$ between adjacent streamlines must remain constant.
+	\hfill\break
+	Since the spacing $\Delta y$ between streamlines is known at the inlet to be $s_{dye}=9.68mm$ and the flow velocity is known there as $U_\infty=85.9 \frac{mm}{s}$, the value for $\Delta\psi$ between two ideal streamlines should be:
+	$$\Delta\psi=U_\infty(\Delta y)_0=U_\infty s_{dye}$$
+	$$\rightarrow \pmb{(\Delta\psi )_c= 831 \frac{mm^2}{s}}$$	
+	\hfill\break\break
+	As a result, the average flow velocity between two adjacent streamlines can be easily determined as:
+	\begin{equation}
+		U = \frac{(\Delta\psi)_c}{y_2-y_1}
+	\end{equation}
 	
 	\hfill\break\break
-	\textbf{Cylinder Streamlines:}
+	\subsection{Cylinder Streamlines:}
 	Assuming inviscid flow ($\nabla^{2}\varphi=0$) and irrotational flow ($\nabla\times\vec{V}=0 \rightarrow \nabla^{2}\psi=0$) allowing for superposition of both potential and streamline equations, the assignment's equation 8 gives the equation for a streamline for flow around a submerged cylinder:
-	$$ \psi = U_{\infty}sin(\theta)\left(r-\frac{a^{2}}{r}\right)$$
+	\begin{equation}
+	\psi = U_{\infty}\sin{(\theta)}\left(r-\frac{a^{2}}{r}\right)
+	\end{equation}
 	where $\psi$ is a constant value defining a given stream line, $U_{\infty}$ is the free-stream flow velocity, $a$ is the radius of the cylinder, and ($r,$ $\theta$) are the polar coordinates of points along a streamline.
 	\hfill\break\break
-	By definition, the equation for the streamline can be used to determine orthogonal components of the flow velocity. For the submerged cylinder, the assignment gives these as: 
-	$$u_{r}=\frac{1}{r}\left[\frac{\partial\psi}{\partial\theta}\right]=U_{\infty}cos(\theta)\left(1-\frac{a^2}{r^2}\right),
-	\;\;u_{\theta}=-\left[\frac{\partial\psi}{\partial\theta}\right]=-U_{\infty}sin(\theta)\left(1+\frac{a^2}{r^2}\right)$$.
+	By definition, the equation for the streamline can be used to determine orthogonal components of the flow velocity. For the submerged cylinder, the assignment provides these in equation 9.
+	\begin{equation}
+	u_{r}=\frac{1}{r}\left[\frac{\partial\psi}{\partial\theta}\right]=U_{\infty}\cos{(\theta)}\left(1-\frac{a^2}{r^2}\right),
+	\;\;u_{\theta}=-\left[\frac{\partial\psi}{\partial\theta}\right]=-U_{\infty}\sin{(\theta)}\left(1+\frac{a^2}{r^2}\right)
+	\end{equation}
 	\hfill\break
-	Accordingly, since $u_r$ and $u_\theta$ are orthogonal, the magnitude of the flow velocity along a streamline at a given point $(r,\theta)$ can be given by:
-	$$U(r,\theta)=\sqrt{u_r^2+u_\theta^2}=U_\infty\sqrt{\frac{\left(a^4-2\,\cos\left(2\,\theta\right)\,a^2\,r^2+r^4\right)}{r^4}}$$
+	These two velocity fields can be used to plot the motion of particles which start at the inlet to the system, at the vertical location of each dye injector.
+	\hfill\break However, MATLAB's capability for plotting streamlines is designed for cartesian fields; so, the above equations must be converted to cartesian coordinates before plotting as follows:
+	$$u_r=\dot r, u_\theta=r\dot\theta \rightarrow \dot\theta=\frac{u_\theta}{r}$$
+	$$\dot x = \dot{r}\cos{(\theta)} - r\dot\theta\sin{(\theta)}=u_r\cos{(\theta)}-u_\theta\sin{(\theta)},\;\;\:\dot y = \dot{r}\sin{(\theta)} + r\dot\theta\cos{(\theta)}=u_r\sin{(\theta)}+u_\theta\cos{(\theta)}$$
+	\begin{align}
+		\pmb{\dot x= U_\infty\frac{\left(a^2\,y^2+x^4+2\,x^2\,y^2+y^4-a^2\,x^2\right)}{{\left(x^2+y^2\right)}^2}} \\
+		\pmb{\dot y = -U_\infty\frac{2\,a^2\,\,x\,y}{{\left(x^2+y^2\right)}^2}}
+	\end{align}
+	\hfill\break\break\break\break\break\break\break\break
+	\subsection{Laminar Flow into Rectangular Corner:}
+	In the assignment the streamline for flow around a sharp bend is given in equation 10 as $\psi=cxy$.  If the origin is considered to be where it is in Figure 10, 19 squares from the system inlet, the constant in this equation can be solved for:
+	$$U_\infty(y_1-y_0)=\Delta\psi=cx_0(y_1-y_0)$$
+	$$\rightarrow c = \frac{U_\infty}{x_0} = \frac{U_\infty}{-19w_{sq}}=\pmb{-4.27 s^{-1}}$$ 
+	
+	With this constant determined, a velocity field can be found for later streamline plotting:
+	$$ \dot x = \left[\frac{\partial\psi}{\partial y}\right],\;\;\;\dot y = -\left[\frac{\partial\psi}{\partial x}\right]$$
+	\begin{equation}
+		\rightarrow \dot x = cx,\;\;\; \dot y = -cy
+	\end{equation}
+	
+	\hfill\break\break
+	\subsection{Flow around Rectangular Object:}
+	Assuming streamlines can be replaced by solid boundaries, the addition of the rectangular object is equivalent to the constraint of a streamline enforcing parallel flow. As such, it can be assumed the flow is uniform with a constant velocity between the rectangular object and the adjacent flat plate once sufficiently far from the upstream and downstream edges of the rectangular object. It will be assumed that this assumption is valid at the mid-plane of the rectangular object.
+	\hfill\break
+	Assuming the fluid is incompressible, the average flow velocity and volumetric flow rate per unit depth between two streamlines can be determined as follows (where subscripts are referencing regions in Figure 0.a,b):
+	$$\because \dot{\volume}_{i}=U_iA_i$$
+	$$U_{C}=U_{R}=U_\infty$$
+	$$U_{2,1}=U_{Y}=U_{O}=U_{C}\frac{A_{C}}{A_{O}}=U_\infty\frac{s}{s-w}$$
+	\begin{equation}
+		\rightarrow \pmb{U_{2,1}=U_\infty\frac{s}{s-w}}
+	\end{equation}
+	Volumetric flow rate per unit depth:
+	 \begin{equation}
+		\therefore \pmb{\dot{\volume}_{2,1}'=U_\infty\frac{s}{s-w}(y_2-y_1)}
+	 \end{equation}
 \end{document}
