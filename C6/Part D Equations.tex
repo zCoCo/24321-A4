@@ -22,7 +22,7 @@
 \renewcommand*{\thesubsection}{\alph{subsection}.}
 
 \begin{document}
-	\section{Part A Background and Theory}
+	\section{Part D Background and Theory}
 	\hfill\break\break
 	\subsection{Symbol Directory:}
 	{\rowcolors{2}{white}{lightgrey}
@@ -101,31 +101,19 @@
 	\end{equation}
 	
 	\subsection{System Calculations:}
-	\paragraph{Minor Head Loss Coefficient and Equivalent Tube Length}
-	As given in equation 5 of the assignment, the minor head loss coefficient can be determined if only the head loss and average fluid velocity at the inlet are known as:
+	\paragraph{Head Loss and Flow Rate Measurement:}
+	If the head loss over a certain very short region which experiences a change in cross sectional area is known, the Bernoulli and Venturi principles can be applied to measure the volumetric flow rate through that area as outline in equation 11 of the assignment:
 	\begin{equation}
-		K = \frac{2gh_K}{V_1^2}
+		Q = C_dA_0\sqrt{\frac{2g(\Delta h)}{1-(\frac{A_0}{A_1})^2}} = \frac{C_d\pi d_0^2}{4}\sqrt{\frac{2g(\Delta h)}{1-(\frac{d_0}{d_1})^4}}
 	\end{equation}
-	This value can then be used to determine the equivalent tube length as given by equation 6 of the assignment:
-	\begin{equation}
-		L_{eq}=\frac{Kd}{f}
-	\end{equation}
-	As the assignment notes, the friction factor used here should be that of a smooth tube; so from equations 7 and 10 of the assignment:
-	\begin{equation}
-		f_c = \left\{
-			\begin{array}{ll}
-				\frac{64}{Re} & \quad Re \leq 2500 \\
-				\left[-1.8\ln\left(\frac{6.9}{Re} + \left(\frac{\varepsilon/d}{3.7}\right)^{1.11}\right)\right]^{-2} & \quad Re>2500
-			\end{array}
-		\right.
-	\end{equation}
-	Where $\varepsilon_{smooth,ideal} = 0 m$.
-	
+	where $C_d$ is the discharge coefficient, $h$ is the head loss, and $A_0$ and $A_1$ are the cross sectional areas of the inlet and outlet respectively.
 	\paragraph{Uncertainties:}
-	Since all values were sampled 5 times, uncertainty in any given parameter can be calculated using $\delta X = 2\sigma_X$, where $\sigma_X$ is the standard deviation in X, given by:
+	Per the specific request of prompt D.2, the uncertainty in calculated flow rates, $Q$, due to uncertainties in the measurements of $d_0$ and $d_1$, can be determined by combining partial uncertainties of the equation for $Q$ given in equation 11 of the assignment as follows:
+	$$\delta Q^2 = \left[\frac{\partial Q}{\partial d_0}\right]^2\delta d_0^2 + \left[\frac{\partial Q}{\partial d_1}\right]^2\delta d_1^2$$
+	$$\delta Q = \sqrt{{\left(\frac{\pi \,C_{d}\,d_{0}\,\sqrt{\frac{2(\Delta h)\,g}{1-\frac{{d_{0}}^4}{{d_{1}}^4}}}}{2}+\frac{\pi \,\sqrt{2}\,C_{d}\,(\Delta h)\,{d_{0}}^5\,g}{2\,{d_{1}}^4\,{\left(\frac{{d_{0}}^4}{{d_{1}}^4}-1\right)}^2\,\sqrt{\frac{(\Delta h)\,g}{1-\frac{{d_{0}}^4}{{d_{1}}^4}}}}\right)}^2\,{\delta d_{0}}^2-\left(\frac{{C_{d}}^2\,(\Delta h)\,{d_{0}}^{12}\,g\,\pi ^2}{2\,{d_{1}}^{10}\,{\left(\frac{{d_{0}}^4}{{d_{1}}^4}-1\right)}^3}\right)\,{\delta d_{1}}^2}$$
 	\begin{equation}
-		\sigma_X = \sqrt{\frac{1}{N_X-1}\sum_{i} (X_i - \mu_X)^2} \quad | \quad \mu_x=\frac{1}{N_X}\sum_i X_i
+		\rightarrow \delta Q = \frac{\pi \,\sqrt{2}}{2}\,\sqrt{-\frac{{C_{d}}^2\,(\Delta h)\,{d_{0}}^2\,{d_{1}}^2\,g\,\left({d_{0}}^{10}\,{\delta d_{1}}^2+{d_{1}}^{10}\,{\delta d_{0}}^2\right)}{{\left({d_{0}}^4-{d_{1}}^4\right)}^3}}
 	\end{equation}
-	\textbf{Note:} In plots, this process is applied to the Y \textit{and} X values around certain target values to create X and Y error bars. \hfill\break For example in the plot of $h_e$ vs $Q$, this is used to create error bars for each set of $\{Q,h_e\}$ where the flow rate was within $0.03^{L}/_{s}$ of the desired test values $0.75^{L}/_{s}, 0.65^{L}/_{s}, \; etc.$
+	where it is given that $\delta d_0=\delta d_1=0.2mm=2\times10^{-4}m$ for both the Orifice and Venturi tube diameter measurements.
 	
 \end{document}

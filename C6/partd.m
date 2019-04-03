@@ -1,4 +1,4 @@
-function partb()
+function partd()
     T = ETable('A4_C6_B.xlsx', ["d","ID","h1","h2","Q"]);
     
     % Convert Units:
