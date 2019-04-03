@@ -1,5 +1,5 @@
 function partd()
-    T = ETable('A4_C6_D.xlsx', ["Q","T","nu","ho1","ho2","hv1","hv2"]);
+    T = ETable('A4_C6_D.xlsx', ["Qm","T","nu","ho1","ho2","hv1","hv2"]);
     
     % Convert Units:
     T.edit('Q', T.Q .* 0.001); % L/s -> m^3/s
@@ -9,6 +9,9 @@ function partd()
     % Set Proper Diameters:
     
     % Rename Fields:
+    T.rename('d', 'Diameter of Tube [m]');
+    T.rename('h1', 'Upstream Pressure Head [m]');
+    T.rename('h2', 'Downstream Pressure Head [m]');
     T.rename('Q', 'Volumetric Flow Rate [$^{m^3}/_{s}$]');
     T.add('Volume Flow Rate [$^{L}/_{s}$]','QLs', T.Q/0.001);
 
@@ -30,24 +33,41 @@ function partd()
     T.add('Orafice Head Loss, $h_o$ [m]', 'ho', T.ho1 - T.ho2);
     T.add('Venturi Head Loss, $h_v$ [m]', 'hv', T.hv1 - T.hv2);
     
-    T.add('Qo,Calculated Volumetric Flow Rate through Orafice [L/s]', 'QLso', ...
-        (Cdo.*pi.*d0o.^2./4)*sqrt(2.*g.*T.ho./(1-(d0o./d1).^4))./0.001...
+    T.add('Measured Volumetric Flow Rate through Orafice [L/s]', 'QLso', ...
+        (Cdo.*pi.*d0o.^2./4)*sqrt(2.*g.*T.ho./(1-(d0o./d1).^4))/0.001...
     );
-    T.add('dQo, Uncertainty in Calculated Volumetric Flow Rate through Orafice [L/s]', 'dQLso', ...
-        (pi*sqrt(2)/2) .* sqrt(-Cdo^2*T.ho*d0o^2*d1^2*g*(d0o^10*dd^2+d1^10*dd^2)/((d0o^4-d1^4)^3)) ./ 0.001...
+    T.add('Uncertainty in Measured Volumetric Flow Rate through Orafice [L/s]', 'dQLso', ...
+        (pi*sqrt(2)/2) .* sqrt(-Cdo^2*T.ho)...
     );
-    T.add('Qmo, Relative Uncertainty in Qo [%]', 'Qmo', 100*(T.QLs-T.QLso)./T.QLso );
 
-    T.add('Qv, Calculated Volumetric Flow Rate through Venturi [L/s]', 'QLsv', ...
-        (Cdv.*pi.*d0v.^2./4)*sqrt(2.*g.*T.hv./(1-(d0v./d1).^4))./0.001...
+
+    T.add('Minor Head Loss Coefficient, $K$', 'K', 2.*g.*T.hk./(T.V.^2) );
+    T.add('Std. of K', 's_K', zeros(size(T.K)));
+    
+    T.add('Theoretical Friction Factor, $f_c$', 'fc', ...
+        + 64 ./ T.Re .* (T.Re <= 2500)...
+        + ( -1.8.*log(6.9./T.Re + ((es./T.d)./3.7).^1.11) ).^-2 .* (T.Re > 2500)...
     );
-    T.add('dQv, Uncertainty in Calculated Volumetric Flow Rate through Venturi [L/s]', 'dQLsv', ...
-        (pi*sqrt(2)/2) .* sqrt(-Cdv^2*T.hv*d0v^2*d1^2*g*(d0v^10*dd^2+d1^10*dd^2)/((d0v^4-d1^4)^3))/0.001...
-    );
-    T.add('Qmv, Relative Uncertainty in Qv [%]', 'Qmv', 100*(T.QLs-T.QLsv)./T.QLsv );
+    T.add('Equivalent Tube Length, $L_{eq}$ [m]', 'Leq', T.K.*T.d./T.fc );
+
+    % Compute Uncertainties:
+    names = cellstr(["90 Bend" "45 Bend" "90 T" "Ball Valve" "Gate Valve" "Globe Valve" "90 Elbow" "In Line Strainer" "Contraction" "Enlargement"]);
+    ids = 1:10;
+    qs = (2:7)*0.1 + 0.05; % L/s
+    for ii = 1:numel(ids)
+        [K,S] = ab(T,'K','QLs', 's_K', qs, 0.03, T.ID==ids(ii));
+        [L,~] = ab(T,'Leq','QLs', 's_K', qs, 0.03, T.ID==ids(ii));
+        T.edit('K', K);
+        T.edit('s_K', S);
+        T.edit('Leq', L);
+    end
     
     % Export Data:
-    writetable(T.data, 'PartDData.xlsx');
+    %writetable(T.data, 'PartBData.xlsx');
+    for ii = 1:numel(ids)
+        [K,S] = ab(T,'K','QLs', 's_K', 1, 1e10, T.ID==ids(ii));
+        sprintf('%s: %0.4g, %0.4g', names{ii}, mean(K(T.ID==ids(ii))), mean(S(T.ID==ids(ii))))
+    end
     
     function [X,S] = aggressiveBin(tab, nameX, nameB, nameSTD, bins, window, range)
         if nargin < 5
