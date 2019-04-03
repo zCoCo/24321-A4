@@ -32,12 +32,14 @@
 		\multicolumn{3}{|c|}{\textbf{Experimental Quantities:}} \\
 		\hline
 		\hline
-		d & Pipe Diameter & $m$\\
-		L & Length of Tube across which Head Loss is Measured & $m$ \\
-		Q & Volumetric Flow Rate & $\frac{m^3}{s}$\\
-		$h_1$ & Upstream Head & $m$ \\
-		$h_2$ & Downstream Head & $m$ \\
+		$Q_m$ & Measured Volumetric Flow Rate & $\frac{L}{s}$\\
 		$T$ & Fluid Temperature & $^{\circ}C$ \\
+		$h_1$ & Upstream Head & $m$ \\
+		$d_1$ & Upstream Pipe Diameter & $m$ \\
+		$A_1$ & Upstream Cross Sectional Area & $m^2$ \\
+		$h_0$ & Orifice/Venturi Throat Head & $m$ \\
+		$d_0$ & Orifice/Venturi Throat Diameter & $m$ \\
+		$A_0$ & Orifice/Venturi Throat Cross Sectional Area & $m^2$ \\
 		\hline
 	\end{tabular}
 	}
@@ -50,11 +52,10 @@
 		\hline
 		\hline
 		$V_{av}$ & Average Fluid Velocity & $\frac{m}{s}$\\
-		$[Re]$ & Reynold's Number & ${}$ \\
-		$h_K$ & Empirical Minor Head Loss & $m$\\
-		$f$ & Friction Factor & ${}$\\
-		$K$ & Minor Head Loss (Accessory) Coefficient & ${}$\\
-		$L_{eq}$ & Equivalent Tube Length & $m$\\
+		$[Re]$ & Reynolds Number & ${}$ \\
+		$\Delta h$ & Empirical Minor Head Loss & $m$\\
+		$Q_X$ & Calculated Volumetric Flow Rate for X & $\frac{L}{s}$\\
+		$Q_{mX}$ & Relative Difference between Calculated Volumetric Flow Rate X and the Measured Value & $\frac{L}{s}$\\
 		\hline
 	\end{tabular}
 	}
@@ -72,8 +73,7 @@
 			$\rho$ & Fluid Density & $\frac{kg}{m^3}$\\
 			$\mu$ & Fluid Dynamic Viscosity & $\frac{N}{m^2s}$\\
 			$\nu$ & Fluid Kinematic Viscosity & $\frac{m^2}{s}$\\
-			$\varepsilon$ & Surface Roughness of Pipe & $m$ \\
-			$\varepsilon_s=\varepsilon_{smooth,ideal}$ & Surface Roughness of Ideal Smooth Pipe & $0 m$ \\
+			$C_d$ & Discharge Coefficient & ${}$\\
 		\hline
 		\end{tabular}
 		}
@@ -88,8 +88,8 @@
 			V_{av} = \frac{Q}{A_{c}} = \frac{4Q}{\pi d^2}
 		\end{equation}
 		
-	\paragraph{Reynold's Number}
-	As given in equation 8 of the assignment, the Reynold's Number can be determined by:
+	\paragraph{Reynolds Number}
+	As given in equation 8 of the assignment, the Reynolds Number can be determined by:
 	\begin{equation}
 		[Re] = \frac{\rho V_{av}d}{\mu} = \frac{V_{av}d}{\nu}
 	\end{equation}
@@ -97,7 +97,7 @@
 	\paragraph{Head Loss}
 	By definition, head loss can be computed as:
 	\begin{equation}
- 		h_k = h_1 - h_2
+ 		\Delta h = h_1 - h_2
 	\end{equation}
 	
 	\subsection{System Calculations:}
@@ -106,7 +106,7 @@
 	\begin{equation}
 		Q = C_dA_0\sqrt{\frac{2g(\Delta h)}{1-(\frac{A_0}{A_1})^2}} = \frac{C_d\pi d_0^2}{4}\sqrt{\frac{2g(\Delta h)}{1-(\frac{d_0}{d_1})^4}}
 	\end{equation}
-	where $C_d$ is the discharge coefficient, $\Delta h$ is the head loss, and $A_0$ and $A_1$ are the cross sectional areas of the throat of the Venturi tube or Orafice and upstream pipe respectively.
+	where $C_d$ is the discharge coefficient, $\Delta h$ is the head loss, and $A_0$ and $A_1$ are the cross sectional areas of the throat of the Venturi tube or Orifice and upstream pipe respectively.
 	\paragraph{Uncertainties:}
 	Per the specific request of prompt D.2, the uncertainty in calculated flow rates, $Q$, due to uncertainties in the measurements of $d_0$ and $d_1$, can be determined by combining partial uncertainties of the equation for $Q$ given in equation 11 of the assignment as follows:
 	$$\delta Q^2 = \left[\frac{\partial Q}{\partial d_0}\right]^2\delta d_0^2 + \left[\frac{\partial Q}{\partial d_1}\right]^2\delta d_1^2$$
@@ -115,5 +115,10 @@
 		\rightarrow \delta Q = \frac{\pi \,\sqrt{2}}{2}\,\sqrt{-\frac{{C_{d}}^2\,(\Delta h)\,{d_{0}}^2\,{d_{1}}^2\,g\,\left({d_{0}}^{10}\,{\delta d_{1}}^2+{d_{1}}^{10}\,{\delta d_{0}}^2\right)}{{\left({d_{0}}^4-{d_{1}}^4\right)}^3}}
 	\end{equation}
 	where it is given that $\delta d_0=\delta d_1=0.2mm=2\times10^{-4}m$ for both the Orifice and Venturi tube diameter measurements.
+	\subparagraph{Relative Difference:}
+	To evaluate the calculated volumetric flow rates, a relative difference was computed for each. For some arbitrary volumetric flow rate computed under a scenario X, the difference relative to the measured flow rate, $Q_m$, was calculated as:
+	\begin{equation}
+		Q_{mX}=\frac{Q_m - Q_X}{Q_X}\times100\%
+	\end{equation}
 	
 \end{document}
