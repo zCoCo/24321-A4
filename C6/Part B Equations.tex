@@ -1,0 +1,131 @@
+\documentclass[12pt]{article}
+\usepackage[table,dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[landscape]{geometry}
+\usepackage{caption}
+
+\definecolor{lightgrey}{gray}{0.9}
+
+\makeatletter
+\DeclareRobustCommand{\volume}{\text{\volumedash}V}
+\newcommand{\volumedash}{%
+	\makebox[0pt][l]{%
+		\ooalign{\hfil\hphantom{$\m@th V$}\hfil\cr\kern0.08em--\hfil\cr}%
+	}%
+}
+\makeatother
+
+\renewcommand*{\thesubsection}{\alph{subsection}.}
+
+\begin{document}
+	\section{Part A Background and Theory}
+	\hfill\break\break
+	\subsection{Symbol Directory:}
+	{\rowcolors{2}{white}{lightgrey}
+	\centering
+	\begin{tabular}{|c|l|c|}
+		\hline
+		\multicolumn{3}{|c|}{\textbf{Experimental Quantities:}} \\
+		\hline
+		\hline
+		d & Pipe Diameter & $m$\\
+		L & Length of Tube across which Head Loss is Measured & $m$ \\
+		Q & Volumetric Flow Rate & $\frac{m^3}{s}$\\
+		$h_1$ & Upstream Head & $m$ \\
+		$h_2$ & Downstream Head & $m$ \\
+		$T$ & Fluid Temperature & $^{\circ}C$ \\
+		\hline
+	\end{tabular}
+	}
+	\hfill\break\break\break
+	{\rowcolors{2}{white}{lightgrey}
+	\centering
+	\begin{tabular}{|c|l|c|}
+		\hline
+		\multicolumn{3}{|c|}{\textbf{Computed Quantities:}} \\
+		\hline
+		\hline
+		$V_{av}$ & Average Fluid Velocity & $\frac{m}{s}$\\
+		$[Re]$ & Reynold's Number & ${}$ \\
+		$h_K$ & Empirical Minor Head Loss & $m$\\
+		$f$ & Friction Factor & ${}$\\
+		$K$ & Minor Head Loss (Accessory) Coefficient & ${}$\\
+		$L_{eq}$ & Equivalent Tube Length & $m$\\
+		\hline
+	\end{tabular}
+	}
+
+	\hfill\break\break
+	\begin{table}
+		\centering
+		{\rowcolors{2}{white}{lightgrey}
+		\begin{tabular}{|c|l|c|}
+		\hline
+			\multicolumn{3}{|c|}{\textbf{Constants and Thermophysical Properties:}} \\
+		\hline
+		\hline
+			g & Acceleration due to Gravity & $9.807\frac{m}{s^2}$\\
+			$\rho$ & Fluid Density & $\frac{kg}{m^3}$\\
+			$\mu$ & Fluid Dynamic Viscosity & $\frac{N}{m^2s}$\\
+			$\nu$ & Fluid Kinematic Viscosity & $\frac{m^2}{s}$\\
+			$\varepsilon$ & Surface Roughness of Pipe & $m$ \\
+			$\varepsilon_s=\varepsilon_{smooth,ideal}$ & Surface Roughness of Ideal Smooth Pipe & $0 m$ \\
+		\hline
+		\end{tabular}
+		}
+		\caption*{\textit{*All non-standard values extracted from relevant sections of assignment. \\ Values not provided were either not needed or were determined as \\ a function of some other variable.}}
+	\end{table}
+
+
+	\subsection{Basic Calculations:}
+	\paragraph{Average Velocity}
+		Assuming an incompressible fluid, for flow through a given tube, the average velocity, $V_{av}$ at any cross-section can be determined from the volumetric flow rate, $Q$, anywhere in the stream and the diameter of the tube, $d$ at the cross-section of interest as:
+		\begin{equation}
+			V_{av} = \frac{Q}{A_{c}} = \frac{4Q}{\pi d^2}
+		\end{equation}
+		
+	\paragraph{Reynold's Number}
+	As given in equation 8 of the assignment, the Reynold's Number can be determined by:
+	\begin{equation}
+		[Re] = \frac{\rho V_{av}d}{\mu} = \frac{V_{av}d}{\nu}
+	\end{equation}
+	
+	\paragraph{Head Loss}
+	By definition, head loss can be computed as:
+	\begin{equation}
+ 		h_k = h_1 - h_2
+	\end{equation}
+	
+	\subsection{System Calculations:}
+	\paragraph{Minor Head Loss Coefficient and Equivalent Tube Length}
+	As given in equation 5 of the assignment, the minor head loss coefficient can be determined if only the head loss and average fluid velocity at the inlet are known as:
+	\begin{equation}
+		K = \frac{2gh_K}{V_1^2}
+	\end{equation}
+	This value can then be used to determine the equivalent tube length as given by equation 6 of the assignment:
+	\begin{equation}
+		L_{eq}=\frac{Kd}{f}
+	\end{equation}
+	As the assignment notes, the friction factor used here should be that of a smooth tube; so from equations 7 and 10 of the assignment:
+	\begin{equation}
+		f_c = \left\{
+			\begin{array}{ll}
+				\frac{64}{Re} & \quad Re \leq 2500 \\
+				\left[-1.8\ln\left(\frac{6.9}{Re} + \left(\frac{\varepsilon/d}{3.7}\right)^{1.11}\right)\right]^{-2} & \quad Re>2500
+			\end{array}
+		\right.
+	\end{equation}
+	Where $\varepsilon_{smooth,ideal} = 0 m$.
+	
+	\paragraph{Uncertainties:}
+	Since all values were sampled 5 times, uncertainty in any given parameter can be calculated using $\delta X = 2\sigma_X$, where $\sigma_X$ is the standard deviation in X, given by:
+	\begin{equation}
+		\sigma_X = \sqrt{\frac{1}{N_X-1}\sum_{i} (X_i - \mu_X)^2} \quad | \quad \mu_x=\frac{1}{N_X}\sum_i X_i
+	\end{equation}
+	\textbf{Note:} In plots, this process is applied to the Y \textit{and} X values around certain target values to create X and Y error bars. \hfill\break For example in the plot of $h_e$ vs $Q$, this is used to create error bars for each set of $\{Q,h_e\}$ where the flow rate was within $0.03^{L}/_{s}$ of the desired test values $0.75^{L}/_{s}, 0.65^{L}/_{s}, \; etc.$
+	
+\end{document}
