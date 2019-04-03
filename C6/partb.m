@@ -41,8 +41,10 @@ function partb()
     qs = (2:7)*0.1 + 0.05; % L/s
     for ii = 1:numel(ids)
         [K,S] = ab(T,'K','QLs', 's_K', qs, 0.03, T.ID==ids(ii));
+        [L,~] = ab(T,'Leq','QLs', 's_K', qs, 0.03, T.ID==ids(ii));
         T.edit('K', K);
         T.edit('s_K', S);
+        T.edit('Leq', L);
     end
     
     % Export Data:
@@ -59,16 +61,17 @@ function partb()
         binrange = bdat(range);
         S = tab.get(nameSTD);
         for b = bins
+            brange = ETable.inrange(bdat, b-window, b+window) .* range;
             s = std(xinrange(ETable.inrange(binrange, b-window, b+window)));
             if isnan(s)
                 s = 0;
             end
-            S = S + s .* ETable.inrange(bdat, b-window, b+window) .* range;
-            m = mean(xinrange);
+            S = S.*~brange + s .* brange;
+            m = mean(xinrange(ETable.inrange(binrange, b-window, b+window)));
             if isnan(m)
                 m = 0;
             end
-            X = X + m .* ETable.inrange(bdat, b-window, b+window) .* range;
+            X = X.*~brange + m .* brange;
         end
     end
     function [X,S] = ab(T,x,b,s,bs,w,r)

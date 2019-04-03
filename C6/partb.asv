@@ -1,16 +1,15 @@
 function partb()
-    T = ETable('A4_C6_B.xlsx', ["L","d","ID","h1","h2","Q"]);
+    T = ETable('A4_C6_B.xlsx', ["d","ID","h1","h2","Q"]);
     
     % Convert Units:
     T.edit('Q', T.Q .* 0.001); % L/s -> m^3/s
     
-    T.unitsList = ["m", "m","", "m", "m", "$^{m^3}/_{s}$"];
+    T.unitsList = ["m","", "m", "m", "$^{m^3}/_{s}$"];
     
     % Set Proper Diameters:
     T.edit('d', 17.2e-3); % m
     
     % Rename Fields:
-    T.rename('L', 'Length of Tube [m]');
     T.rename('d', 'Diameter of Tube [m]');
     T.rename('h1', 'Upstream Pressure Head [m]');
     T.rename('h2', 'Downstream Pressure Head [m]');
@@ -20,7 +19,7 @@ function partb()
     % Constants and Thermophysical Properties:
     g = 9.807;
     nu = 1.003e-6;
-    es = 0; T.set('e', es*ones(size(T.L)));
+    es = 0;
     
     % Computed Values:
     T.add('Average Fluid Velocity, $V_{av}$ [$^{m}/{s}$]', 'V', 4 .* T.Q ./ pi ./ (T.d.^2) );
@@ -28,20 +27,24 @@ function partb()
     
     T.add('Empirical Head Loss, $h_K$ [m]', 'hk', T.h1 - T.h2);
     T.add('Minor Head Loss Coefficient, $K$', 'K', 2.*g.*T.hk./(T.V.^2) );
+    T.add('Std. of K', 's_K', zeros(size(T.K)));
     
     T.add('Theoretical Friction Factor, $f_c$', 'fc', ...
-        + 64 / T.Re .* (T.Re <= 2500)...
-        + ( -1.8.*log(6.9./T.Re + ((T.e./T.d)./3.7).^1.11) ).^-2 .* (T.Re > 2500)...
+        + 64 ./ T.Re .* (T.Re <= 2500)...
+        + ( -1.8.*log(6.9./T.Re + ((es./T.d)./3.7).^1.11) ).^-2 .* (T.Re > 2500)...
     );
     T.add('Equivalent Tube Length, $L_{eq}$ [m]', 'Leq', T.K.*T.d./T.fc );
 
     % Compute Uncertainties:
-    ids = cellstr(["90 Bend" "45 Bend" "90 T" "Ball Valve" "Gate Valve" "Globe Valve" "90 Elbow" "In Line Strainer" "Contraction" "Enlargement"]);
+    names = cellstr(["90 Bend" "45 Bend" "90 T" "Ball Valve" "Gate Valve" "Globe Valve" "90 Elbow" "In Line Strainer" "Contraction" "Enlargement"]);
+    ids = 1:10;
     qs = (2:7)*0.1 + 0.05; % L/s
     for ii = 1:numel(ids)
-        T.K = ab(T,'K','Q
+        [K,S] = ab(T,'K','QLs', 's_K', qs, 0.03, T.ID==ids(ii));
+        [L,~] = ab(T,'Leq','QLs', 's_K', qs, 0.03, T.ID==ids(ii));
+        T.edit('Lew', K);
+        T.edit('s_K', S);
     end
-    
     
     % Export Data:
     writetable(T.data, 'PartBData.xlsx');
@@ -51,26 +54,27 @@ function partb()
             window = 0.15;
         end
         xdat = tab.get(nameX);
-        X = zeros(size(xdat));
+        X = xdat;
         xinrange = xdat(range);
         bdat = tab.get(nameB);
         binrange = bdat(range);
         S = tab.get(nameSTD);
         for b = bins
+            brange = ETable.inrange(bdat, b-window, b+window) .* range;
             s = std(xinrange(ETable.inrange(binrange, b-window, b+window)));
             if isnan(s)
                 s = 0;
             end
-            S = S + s .* ETable.inrange(bdat, b-window, b+window) .* range;
-            m = mean(xinrange);
+            S = S.*~brange + s .* brange;
+            m = mean(xinrange(ETable.inrange(binrange, b-window, b+window)));
             if isnan(m)
                 m = 0;
             end
-            X = X + m .* ETable.inrange(bdat, b-window, b+window) .* range;
+            X = X.*~brange + m .* brange;
         end
     end
     function [X,S] = ab(T,x,b,s,bs,w,r)
-        aggressiveBin(T,x,b,s,bs,w,r);
+        [X,S] = aggressiveBin(T,x,b,s,bs,w,r);
     end
     
     function [Bs, Bwindow] = translateRange(tab, nameA, nameB, values, window)
