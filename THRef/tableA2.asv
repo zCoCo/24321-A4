@@ -10,15 +10,15 @@ function A2 = tableA2()
     
     A2.edit('vf', A2.vf * 1e-3); % to m^3/kg
     
-    A2.edit('uf', A2.uf * 1e3); % kJ -> J
-    A2.edit('ug', A2.ug * 1e3); % kJ -> J
+    A2.edit('uf', A2.uf * 1e3; % kJ -> J
+    A2.edit('ug', A2.ug * 1e3; % kJ -> J
     
-    A2.edit('hf', A2.hf * 1e3); % kJ -> J
-    A2.edit('hfg', A2.hfg * 1e3); % kJ -> J
-    A2.edit('hg', A2.hg * 1e3); % kJ -> J
+    A2.edit('hf', A2.hf * 1e3; % kJ -> J
+    A2.edit('hfg', A2.hfg * 1e3; % kJ -> J
+    A2.edit('hg', A2.hg * 1e3; % kJ -> J
     
-    A2.edit('sf', A2.sf * 1e3); % kJ -> J
-    A2.edit('sg', A2.sg * 1e3); % kJ -> J
+    A2.edit('sf', A2.sf * 1e3; % kJ -> J
+    A2.edit('sg', A2.sg * 1e3; % kJ -> J
     
     % Apply Appropriate Titles:
     A2.rename('T', 'Fluid Temperature [K]');

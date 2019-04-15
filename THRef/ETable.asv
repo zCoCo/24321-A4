@@ -115,19 +115,8 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
         % Adds a Column to This Table where Each Entry is Interpolated
         % As a Value from colX -> colY in the src Table where Column X in
         % This Table is used as the Reference Value.
-        % N.B.: All columns given as shortNames.
-        % ex. T1.interp('Pressure in Valve B', 'Pb', PvsT_Table, 'T', 'P', 'Tb');
-        function interp(obj, n, sn, src, colX, colY, x)
-            % TODO: add 'extrap' to interp1 or strict boundary cutoffs  
-            % (however that would be implemented for arbitrary datasets 
-            % which might not be monotonic... or is it ideal for this to 
-            % spit out NaN for OOB issues? 
-            obj.add(n,sn, interp1(src.get(colX), src.get(colY), obj.get(x), 'linear'));
-        end
-        % Same as interp but Steals name and short name from colY of source
-        % table.
-        function interpS(obj, src, colX, colY, x)
-            obj.interp(src.cosmeticFullName(colY),colY, colX, colY, x);
+        function interp(obj, na, sn, src, colX, colY, x)
+            
         end
         
         % Edits the Given Column with the Given Short Name by replacing its
