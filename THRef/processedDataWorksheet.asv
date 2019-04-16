@@ -1,0 +1,29 @@
+function T = processedDataWorksheet()
+    % Load Raw Data:
+    T = ETable('A4_ThRef.xlsx', 12, ["Pc","CP", "Pe","Ve","Ie", "Vm","Im","Fm", "wm", "wc", ]);
+    
+    % Convert Units to SI Base Units:
+    T.edit('T', T.T + 273.15); % C -> K
+    T.edit('P', T.P * 1e3); % kPa -> Pa
+    
+    T.edit('hf', T.hf * 1e3); % kJ -> J
+    T.edit('hfg', T.hfg * 1e3); % kJ -> J
+    T.edit('hg', T.hg * 1e3); % kJ -> J
+    
+    T.edit('sf', T.sf * 1e3); % kJ -> J
+    T.edit('sg', T.sg * 1e3); % kJ -> J
+    
+    % Apply Appropriate Titles:
+    T.rename('T', 'Fluid Temperature [K]');
+    T.rename('P', 'Fluid Pressure [Pa]');
+    
+    T.rename('vf', 'Sat. Liquid Specific Volume [$^{m^3}/_{kg}$]');
+    T.rename('vg', 'Sat. Vapour Specific Volume [$^{m^3}/_{kg}$]');
+    
+    T.rename('hf', 'Sat. Liquid Specific Enthalpy [$^{J}/_{kg}$]');
+    T.rename('hfg', 'Evaporation Specific Enthalpy [$^{J}/_{kg}$]');
+    T.rename('hg', 'Sat. Vapour Specific Enthalpy [$^{J}/_{kg}$]');
+    
+    T.rename('sf', 'Sat. Liquid Specific Entropy [$^{J}/_{kgK}$]');
+    T.rename('sg', 'Sat. Vapour Specific Entropy [$^{J}/_{kgK}$]');
+end

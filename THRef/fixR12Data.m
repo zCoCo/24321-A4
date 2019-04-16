@@ -6,7 +6,7 @@ function fixR12Data()
 
     % Find the beginning and end of each row (where two +ve temps are
     % smashed together) and separate them:
-    for T = 0:110
+    for T = -110:110
         smash = char(" "+num2str(T)+num2str(T+1)+" ");
         unsmash = char(" "+num2str(T)+" "+num2str(T+1)+" ");
         str = strrep(str, smash,unsmash);
