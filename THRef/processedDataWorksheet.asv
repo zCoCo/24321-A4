@@ -1,29 +1,22 @@
 function T = processedDataWorksheet()
     % Load Raw Data:
-    T = ETable('A4_ThRef.xlsx', 12, ["Pc","CP", "Pe","Ve","Ie", "Vm","Im","Fm", "wm", "wc", ]);
+    T = ETable('A4_ThRef.xlsx', ["N""Pc","CP", "Pe","Ve","Ie", "Vm","Im","Fm", "wm", "wc", "Flow_r","Flow_w", "T1","T2","T3","T4","T5","T6","T7","T8"]);
     
     % Convert Units to SI Base Units:
-    T.edit('T', T.T + 273.15); % C -> K
-    T.edit('P', T.P * 1e3); % kPa -> Pa
+    % C -> K
+    for i = 1:8
+        T.edit(char("T"+(i)), T.get(char("T"+(i))) + 273.15); % C -> K
+    end
     
-    T.edit('hf', T.hf * 1e3); % kJ -> J
-    T.edit('hfg', T.hfg * 1e3); % kJ -> J
-    T.edit('hg', T.hg * 1e3); % kJ -> J
+    % kPa -> Pa
+    T.edit('Pc', T.Pc * 1e3);
+    T.edit('Pe', T.Pe * 1e3);
     
-    T.edit('sf', T.sf * 1e3); % kJ -> J
-    T.edit('sg', T.sg * 1e3); % kJ -> J
+    % rpm -> rad/s
+    T.edit('wm', T.wm * 2*pi/60);
+    T.edit('wc', T.wc * 2*pi/60);
     
-    % Apply Appropriate Titles:
-    T.rename('T', 'Fluid Temperature [K]');
-    T.rename('P', 'Fluid Pressure [Pa]');
-    
-    T.rename('vf', 'Sat. Liquid Specific Volume [$^{m^3}/_{kg}$]');
-    T.rename('vg', 'Sat. Vapour Specific Volume [$^{m^3}/_{kg}$]');
-    
-    T.rename('hf', 'Sat. Liquid Specific Enthalpy [$^{J}/_{kg}$]');
-    T.rename('hfg', 'Evaporation Specific Enthalpy [$^{J}/_{kg}$]');
-    T.rename('hg', 'Sat. Vapour Specific Enthalpy [$^{J}/_{kg}$]');
-    
-    T.rename('sf', 'Sat. Liquid Specific Entropy [$^{J}/_{kgK}$]');
-    T.rename('sg', 'Sat. Vapour Specific Entropy [$^{J}/_{kgK}$]');
+    % g/s to kg/s
+    T.edit('Flow_r', T.Flow_r / 1000);
+    T.edit('Flow_w', T.Flow_w / 1000);
 end

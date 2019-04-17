@@ -130,6 +130,31 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
             obj.interp(src.cosmeticFullName(colY),colY, colX, colY, x);
         end
         
+        % Same as #interp but in quasi-2D (ie. stacked tables as in the
+        % Thermodynamics textbook).
+        function interpQ2(obj, n, sn, src, colX,colY,colV, x,y)
+            xs = obj.get(x);
+            ys = obj.get(y);
+            vs = zeros(size(ys));
+            for i = 1:numel(ys)
+                Xs = src.get(colX);
+                Ys = src.get(colY);
+                Vs = src.get(colV);
+                
+                y_low = max(Ys(Ys < ys(i)));
+                low = Ys == y_low;
+                v_low = interp1(Xs(low), Vs(low), xs(i), 'linear');
+                
+                y_high = min(Ys(Ys >= ys(i)));
+                high = Ys == y_high;
+                v_high = interp1(Xs(high), Vs(high), xs(i), 'linear');
+                
+                vs(i) = (ys(i) - y_low)*(v_high - v_low)/(y_high - y_low) + v_low;
+            end
+            
+            obj.add(n,sn, vs);
+        end
+        
         % Edits the Given Column with the Given Short Name by replacing its
         % values with the given new values:
         function edit(obj, sn, newVals)
@@ -209,7 +234,7 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
             sub = obj.data{:, idxA:idxB};
         end
         
-        % Returns subsection of the current ETable as a Table containing 
+        % Returns subsection of the current ETable as a Matrix containing 
         % the columns with the given indicies in the desired order
         function sub = selectColumns(obj, varargin)
             sz = size(obj.get(char(varargin{1})));
@@ -218,6 +243,26 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
             for i = 1:numel(varargin)
                 sub(:,i)= obj.get(char(varargin{i}));
             end
+        end
+        
+        % Returns a Table Containing the Columns with the Given Short
+        % Names.
+        function tab = subColTable(obj, varargin)
+            dat = obj.get(varargin);
+            tab = array2table(cell2mat(dat));
+            tab.Properties.VariableNames = varargin;
+            desc = varargin;
+            for i = 1:numel(varargin)
+                desc{i} = obj.cosmeticFullName(varargin{i});
+            end
+            tab.Properties.VariableDescriptions = desc;
+        end
+        
+        % Exports a Table Containing the Columns with the Given Short
+        % Names to an Excel file with the Given Filename.
+        function subColToExcel(obj, filename, varargin)
+            tab = obj.subColTable(varargin{:});
+            writetable(tab, filename);
         end
         
         % Returns a ETable which is a subtable of the given table where
