@@ -484,15 +484,23 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
         % Draws a grey verical dashed line at the given X-axis value on the
         % current plot, with a label of the given text at the bottom.
         % side: 'left','right','center'
-        function vline(x, txt, side)
+        function vline(x, txt, side, valign)
             if nargin < 3
                 side = 'left';
+            end
+            if nargin < 4
+                valign = 'bottom';
             end
             hold on
                 grey = [0.5 0.4 0.4];
                 plot([x x], ylim, ':', 'Color', grey);
                 size = ylim;
-                text(x, 0.05*diff(size) + size(1), txt, 'Color', grey, 'HorizontalAlignment', side, 'Interpreter', 'latex');
+                if strcmp(valign, 'bottom')
+                    fact = 0.05;
+                else
+                    fact = 0.95;
+                end
+                text(x, fact*diff(size) + size(1), txt, 'Color', grey, 'HorizontalAlignment', side, 'Interpreter', 'latex');
             hold off
         end
         

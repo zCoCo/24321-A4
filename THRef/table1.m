@@ -35,13 +35,8 @@ function table1()
     T.interp('Enthalpy for State 6 [$^{J}/_{kg}$]', 'h6', R12, 'T','hg', 'T6');
     T.interp('Pressure for State 6 [Pa]', 'P6', R12, 'T','P', 'T6');
     
-    T.interp('Entropy for State 7 [$^{J}/_{kgK}$]', 's7', A2, 'T','sf', 'T7');
-    T.interp('Sat. Liq. Enthalpy at Temperature 7 [$^{J}/_{kg}$]', 'hf7', A2, 'T','hf', 'T7');
-    T.add('Enthalpy at State 7 [$^{J}/_{kg}$]', 'h7', A2, 'T','hf', 'T7');
-    T.interp('Pressure for State 7 [Pa]', 'P6', R12, 'T','P', 'T7');
-    
     %% Produce Table 1:
-    states = (1:8)';
+    states = (1:6)';
     cols = ["T" + states, "P" + states, "h" + states, "s" + states]';
     cols = cellstr(cols(:));
     T.subColToExcel('Table 1.xlsx', cols{:});
@@ -52,12 +47,27 @@ function table1()
     ss = cell2mat(T.get(cellstr("s"+(1:6))));
     hold on
     plotTSVaporDome(min(min(ss))/1.5, max(max(ss))*1.5);
-    for i = 1:size(Ts, 1)
+    for i = [10,6]
         T = Ts(i, :);
         s = ss(i, :);
         plot(s,T, '-o');
     end
     hold off
+    legend({'Saturation Dome', 'Maximum Refrigeration Load (Rheostat: 98.5\%)', 'Minimum Refrigeration Load (Rheostat: 42.5\%)'}, 'Interpreter', 'latex');
+    xlabel('Entropy [$^{J}/_{kgK}$]', 'Interpreter', 'latex');
+    ylabel('Temperature [K]',  'Interpreter', 'latex');
+    for j = 1:numel(T)
+        if j == 3
+            side = 'right';
+            fact = 0.99;
+        else
+            side = 'left';
+            fact = 1.01;
+        end
+        text(fact*s(j), T(j), char("T"+j), 'Interpreter', 'latex', 'HorizontalAlignment', side);
+    end
+    saveas(gcf, 'Figure 1.png', 'png');
+    saveas(gcf, 'Figure 1.fig ', 'fig');
     
     % Plot the Vapor Dome on a T-s Diagram between smin and smax
     function plotTSVaporDome(smin,smax)
