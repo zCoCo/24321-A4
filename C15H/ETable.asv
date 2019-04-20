@@ -215,9 +215,13 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
             units = regexp(newFullName, '(?<=\[).*(?=\])', 'match');
             if ~isempty(units)
                 obj.unitsList(idx) = units(1);
-            elseif numel(obj.unitsList) < find(idx,1,'last') || ismissing(obj.unitsList(idx))
-                obj.unitsList(idx) = ""; % Add blank units if none exist yet
             end
+        end
+        
+        % Extracts Units from Cosmetic Name of Column with Given ShortName
+        % and Adds.
+        function addUnitsFromName(obj, sn)
+            idx = obj.shortNames == sn;
         end
         
         % Sets the Cosmetic Units Associated with the Given ShortName
