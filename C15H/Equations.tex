@@ -54,6 +54,7 @@
 		\hline
 		\hline
 		$\delta \textbf{X}$ & Notation for Uncertainty in Some Measurement "\textbf{X}" & ${}$\\
+		$V_{\infty rel}$ & Max. Flow Velocity Reached in a Measurement Cross-Section & $^m/_s$ \\
 		$\Delta h$ & Difference in Static and Pitot Pressure Heads & $m$\\
 		$P_{dyn}$ & Dynamic Pressure & $Pa$\\
 		$V_c$ & Computed Flow Velocity at Pitot Tube Opening & $^m/_s$\\
@@ -85,43 +86,42 @@
 
 
 	\subsection{Basic Calculations:}
-	\paragraph{Flow Velocity}
-		From the assignment
-		\begin{equation}
-			V_{av} = \frac{Q}{A_{c}} = \frac{4Q}{\pi d^2}
-		\end{equation}
-		
-	\paragraph{Reynolds Number}
-	As given in equation 8 of the assignment, the Reynolds Number can be determined by:
+	\paragraph{Uncertainty} For each set of measurements requested by the assignment, 10 were taken so that the uncertainty caused by both inherent uncertainty in the instrumentation and environmental factors could be captured by the standard deviation in the measurements.\hfill\break 
+	For some parameter $\chi$ which was directly measured $n=10$ times, the value, $X$, used to represent this parameter throughout subsequent calculations was determined as follows:
 	\begin{equation}
-		[Re] = \frac{\rho V_{av}d}{\mu} = \frac{V_{av}d}{\nu}
+		X = \frac{1}{n}\sum_{i=1}^{n}{\chi_i}
+	\end{equation}
+	$$\bar{\chi} = \frac{1}{n}\sum_{i=1}^{n}{\chi_i}$$
+	$$\sigma_X = \sqrt{\frac{\sum_{i=1}^{n}{(\chi_i-\bar{\chi})^2}}{n-1}}$$
+	For 95\% confidence:
+	\begin{equation}
+		\delta X = 2\sigma_X
 	\end{equation}
 	
-	\paragraph{Head Loss}
-	By definition, head loss can be computed as:
+	
+	\subsection{Analysis Calculations:}
+	*All uncertainties of derived values were determined by standard error propagation techniques.
+	\paragraph{Free-Stream Velocity} In the FAQ of the assignment, it stated that it is important for Reynolds number and boundary layer calculations to use the free-stream velocity \textit{in the cross-section where the measurements were taken} rather than the velocity measured upstream of the experiment provided by the data-logs, $U_\infty$.\hfill\break
+	As such, for these calculations the free-stream velocity was assumed to be the maximum of all calculated velocities for the experimental setup in question (ie, same plate, set speed, pitot tube x-position).
 	\begin{equation}
- 		\Delta h = h_1 - h_2
+		V_{\infty rel_i} = max\{V_c\}_i
+	\end{equation}
+	\paragraph{Reynolds Number} Reynolds number was computed using standard technique for flow over a flat plate:
+	\begin{equation}
+		Re_x = \frac{\rho_a V_{\infty rel} x}{\nu_a}
 	\end{equation}
 	
-	\subsection{System Calculations:}
-	\paragraph{Head Loss and Flow Rate Measurement:}
-	If the head loss over a certain very short region which experiences a change in cross sectional area is known, the Bernoulli and Venturi principles can be applied to measure the volumetric flow rate through that area as outline in equation 11 of the assignment:
-	\begin{equation}
-		Q = C_dA_0\sqrt{\frac{2g(\Delta h)}{1-(\frac{A_0}{A_1})^2}} = \frac{C_d\pi d_0^2}{4}\sqrt{\frac{2g(\Delta h)}{1-(\frac{d_0}{d_1})^4}}
-	\end{equation}
-	where $C_d$ is the discharge coefficient, $\Delta h$ is the head loss, and $A_0$ and $A_1$ are the cross sectional areas of the throat of the Venturi tube or Orifice and upstream pipe respectively.
-	\paragraph{Uncertainties:}
-	Per the specific request of prompt D.2, the uncertainty in calculated flow rates, $Q$, due to uncertainties in the measurements of $d_0$ and $d_1$, can be determined by combining partial uncertainties of the equation for $Q$ given in equation 11 of the assignment as follows:
-	$$\delta Q^2 = \left[\frac{\partial Q}{\partial d_0}\right]^2\delta d_0^2 + \left[\frac{\partial Q}{\partial d_1}\right]^2\delta d_1^2$$
-	$$\delta Q = \sqrt{{\left(\frac{\pi \,C_{d}\,d_{0}\,\sqrt{\frac{2(\Delta h)\,g}{1-\frac{{d_{0}}^4}{{d_{1}}^4}}}}{2}+\frac{\pi \,\sqrt{2}\,C_{d}\,(\Delta h)\,{d_{0}}^5\,g}{2\,{d_{1}}^4\,{\left(\frac{{d_{0}}^4}{{d_{1}}^4}-1\right)}^2\,\sqrt{\frac{(\Delta h)\,g}{1-\frac{{d_{0}}^4}{{d_{1}}^4}}}}\right)}^2\,{\delta d_{0}}^2-\left(\frac{{C_{d}}^2\,(\Delta h)\,{d_{0}}^{12}\,g\,\pi ^2}{2\,{d_{1}}^{10}\,{\left(\frac{{d_{0}}^4}{{d_{1}}^4}-1\right)}^3}\right)\,{\delta d_{1}}^2}$$
-	\begin{equation}
-		\rightarrow \delta Q = \frac{\pi \,\sqrt{2}}{2}\,\sqrt{-\frac{{C_{d}}^2\,(\Delta h)\,{d_{0}}^2\,{d_{1}}^2\,g\,\left({d_{0}}^{10}\,{\delta d_{1}}^2+{d_{1}}^{10}\,{\delta d_{0}}^2\right)}{{\left({d_{0}}^4-{d_{1}}^4\right)}^3}}
-	\end{equation}
-	where it is given that $\delta d_0=\delta d_1=0.2mm=2\times10^{-4}m$ for both the Orifice and Venturi tube diameter measurements.
-	\subparagraph{Relative Difference:}
-	To evaluate the calculated volumetric flow rates, a relative difference was computed for each. For some arbitrary volumetric flow rate computed under a scenario X, the difference relative to the measured flow rate, $Q_m$, was calculated as:
-	\begin{equation}
-		Q_{mX}=\frac{Q_m - Q_X}{Q_X}\times100\%
-	\end{equation}
+	\paragraph{Experimental Boundary Layer Thickness}
+	
+	\paragraph{Theoretical Boundary Layer Thickness}
+	For laminar flow, theoretical boundary layer thickness was determined using equation 18 of the assignment:
+	
+	\hfill\break
+	For turbulent flow, equation 19 of the assignment:
+	\hfill\break
+	For turbulent flow which starts at the leading edge (smooth plate with obstacle), equation 20 of the assignment:
+	
+	\paragraph{Choosing Which Model to Use:} For the smooth plate, whether to use a laminar or turbulent flow model was determined strictly by the Reynolds number (as given above). For the rough plate, both the laminar and turbulent flow curves were regressed and which ever had the lower standard error was used. For the smooth plate with the obstacle, the flow was always assumed to be turbulent, starting at the leading edge.
+	
 	
 \end{document}
