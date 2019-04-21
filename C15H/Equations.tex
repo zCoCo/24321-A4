@@ -98,9 +98,22 @@
 		\delta X = 2\sigma_X
 	\end{equation}
 	
+	*All uncertainties of derived values were determined by standard error propagation techniques.
 	
 	\subsection{Analysis Calculations:}
-	*All uncertainties of derived values were determined by standard error propagation techniques.
+	\paragraph{Flow Velocity}
+	The assignment indicates in equation 9 that the flow velocity at the pitot tube entrance can be determined by:
+	$$V_{c} = \sqrt{\frac{2P_{dyn}}{\rho_a}}$$
+	Here, the dynamic pressure can be determined by combining equations 3, 5-7 of the assignment to get:
+	$$P_{dyn} = \rho_f g (h_s-h_p)$$
+	Therefore, it can be determined that:
+	\begin{equation}
+	V_{c} = \sqrt{\frac{2\rho_f g (h_s-h_p)}{\rho_a}}
+	\end{equation}
+	\begin{equation}
+	\delta V_c = \sqrt{\frac{g\,\rho_f}{2\,\rho_a \,\left(h_{s}-h_{p}\right)}(\delta h_s^2 + \delta h_p^2) + \frac{g\,\rho_f\,\left(h_{s}-h_{p}\right)}{2\,\rho_a ^3}\delta \rho_a^2}
+	\end{equation}
+	
 	\paragraph{Free-Stream Velocity} In the FAQ of the assignment, it stated that it is important for Reynolds number and boundary layer calculations to use the free-stream velocity \textit{in the cross-section where the measurements were taken} rather than the velocity measured upstream of the experiment provided by the data-logs, $U_\infty$.\hfill\break
 	As such, for these calculations the free-stream velocity was assumed to be the maximum of all calculated velocities for the experimental setup in question (ie, same plate, set speed, pitot tube x-position).
 	\begin{equation}
