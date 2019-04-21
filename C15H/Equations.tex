@@ -1,0 +1,127 @@
+\documentclass[12pt]{article}
+\usepackage[table,dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[landscape]{geometry}
+\usepackage{caption}
+
+\definecolor{lightgrey}{gray}{0.9}
+
+\makeatletter
+\DeclareRobustCommand{\volume}{\text{\volumedash}V}
+\newcommand{\volumedash}{%
+	\makebox[0pt][l]{%
+		\ooalign{\hfil\hphantom{$\m@th V$}\hfil\cr\kern0.08em--\hfil\cr}%
+	}%
+}
+\makeatother
+
+\renewcommand*{\thesubsection}{\alph{subsection}.}
+
+\begin{document}
+	\section{Part D Background and Theory}
+	\hfill\break\break
+	\subsection{Symbol Directory:}
+	{\rowcolors{2}{white}{lightgrey}
+	\centering
+	\begin{tabular}{|c|l|c|}
+		\hline
+		\multicolumn{3}{|c|}{\textbf{Experimental Quantities:}} \\
+		\hline
+		\hline
+		$y$ & Position Perpendicular to Plate & $mm$ \\
+		$x$ & Position Along Plate from Leading Edge & $mm$ \\
+		$x_c$ & Centerstream X-Position & $8.0mm$ \\
+		$x_d$ & Downstream X-Position & $12.6mm$ \\
+		$\delta x$ & Uncertainty in X-Position Measurements & $0.05mm$ \\
+		$h_s$ & Static Pressure Head & $m$\\
+		$h_p$ & Pitot Tube Pressure-Head & $m$\\
+		$T_{amb}$ & Ambient Temperature & $22.8^{\circ}C$\\
+		$\rho_a$ & Density of Ambient Air & $^{kg}/_{m^3}$ \\
+		$U_{\infty}$ & Measured Free-Stream Velocity & $^m/_s$ \\
+		\hline
+	\end{tabular}
+	}
+	\hfill\break\break\break
+	{\rowcolors{2}{white}{lightgrey}
+	\centering
+	\begin{tabular}{|c|l|c|}
+		\hline
+		\multicolumn{3}{|c|}{\textbf{Computed Quantities:}} \\
+		\hline
+		\hline
+		$\delta \textbf{X}$ & Notation for Uncertainty in Some Measurement "\textbf{X}" & ${}$\\
+		$\Delta h$ & Difference in Static and Pitot Pressure Heads & $m$\\
+		$P_{dyn}$ & Dynamic Pressure & $Pa$\\
+		$V_c$ & Computed Flow Velocity at Pitot Tube Opening & $^m/_s$\\
+		$Re$ & Reynolds Number & ${}$ \\
+		$\delta$ & Boundary Layer Thickness & $mm$ \\
+		$a,b,c$ & Velocity Curve Regression Parameters & ${}$ \\
+		$SE_V$ & Standard Error of Velocity Regression & ${^m/_s}$ \\
+		\hline
+	\end{tabular}
+	}
+
+	\hfill\break\break
+	\begin{table}
+		\centering
+		{\rowcolors{2}{white}{lightgrey}
+		\begin{tabular}{|c|l|c|}
+		\hline
+			\multicolumn{3}{|c|}{\textbf{Constants and Thermophysical Properties:}} \\
+		\hline
+		\hline
+			g & Acceleration due to Gravity & $9.807\frac{m}{s^2}$\\
+			$\rho_f$ & Pitot Tube Fluid (water) Density & $^*997\frac{kg}{m^3}$\\
+			$\nu_a$ & Kinematic Viscosity of Air & $^*15.36\times10^{-6}\frac{m^2}{s}$\\
+		\hline
+		\end{tabular}
+		}
+		\caption*{\textit{*Value taken from \em{Principles of Heat and Mass Transfer by Incropera, et al.} Textbook at Ambient Temperature}}
+	\end{table}
+
+
+	\subsection{Basic Calculations:}
+	\paragraph{Flow Velocity}
+		From the assignment
+		\begin{equation}
+			V_{av} = \frac{Q}{A_{c}} = \frac{4Q}{\pi d^2}
+		\end{equation}
+		
+	\paragraph{Reynolds Number}
+	As given in equation 8 of the assignment, the Reynolds Number can be determined by:
+	\begin{equation}
+		[Re] = \frac{\rho V_{av}d}{\mu} = \frac{V_{av}d}{\nu}
+	\end{equation}
+	
+	\paragraph{Head Loss}
+	By definition, head loss can be computed as:
+	\begin{equation}
+ 		\Delta h = h_1 - h_2
+	\end{equation}
+	
+	\subsection{System Calculations:}
+	\paragraph{Head Loss and Flow Rate Measurement:}
+	If the head loss over a certain very short region which experiences a change in cross sectional area is known, the Bernoulli and Venturi principles can be applied to measure the volumetric flow rate through that area as outline in equation 11 of the assignment:
+	\begin{equation}
+		Q = C_dA_0\sqrt{\frac{2g(\Delta h)}{1-(\frac{A_0}{A_1})^2}} = \frac{C_d\pi d_0^2}{4}\sqrt{\frac{2g(\Delta h)}{1-(\frac{d_0}{d_1})^4}}
+	\end{equation}
+	where $C_d$ is the discharge coefficient, $\Delta h$ is the head loss, and $A_0$ and $A_1$ are the cross sectional areas of the throat of the Venturi tube or Orifice and upstream pipe respectively.
+	\paragraph{Uncertainties:}
+	Per the specific request of prompt D.2, the uncertainty in calculated flow rates, $Q$, due to uncertainties in the measurements of $d_0$ and $d_1$, can be determined by combining partial uncertainties of the equation for $Q$ given in equation 11 of the assignment as follows:
+	$$\delta Q^2 = \left[\frac{\partial Q}{\partial d_0}\right]^2\delta d_0^2 + \left[\frac{\partial Q}{\partial d_1}\right]^2\delta d_1^2$$
+	$$\delta Q = \sqrt{{\left(\frac{\pi \,C_{d}\,d_{0}\,\sqrt{\frac{2(\Delta h)\,g}{1-\frac{{d_{0}}^4}{{d_{1}}^4}}}}{2}+\frac{\pi \,\sqrt{2}\,C_{d}\,(\Delta h)\,{d_{0}}^5\,g}{2\,{d_{1}}^4\,{\left(\frac{{d_{0}}^4}{{d_{1}}^4}-1\right)}^2\,\sqrt{\frac{(\Delta h)\,g}{1-\frac{{d_{0}}^4}{{d_{1}}^4}}}}\right)}^2\,{\delta d_{0}}^2-\left(\frac{{C_{d}}^2\,(\Delta h)\,{d_{0}}^{12}\,g\,\pi ^2}{2\,{d_{1}}^{10}\,{\left(\frac{{d_{0}}^4}{{d_{1}}^4}-1\right)}^3}\right)\,{\delta d_{1}}^2}$$
+	\begin{equation}
+		\rightarrow \delta Q = \frac{\pi \,\sqrt{2}}{2}\,\sqrt{-\frac{{C_{d}}^2\,(\Delta h)\,{d_{0}}^2\,{d_{1}}^2\,g\,\left({d_{0}}^{10}\,{\delta d_{1}}^2+{d_{1}}^{10}\,{\delta d_{0}}^2\right)}{{\left({d_{0}}^4-{d_{1}}^4\right)}^3}}
+	\end{equation}
+	where it is given that $\delta d_0=\delta d_1=0.2mm=2\times10^{-4}m$ for both the Orifice and Venturi tube diameter measurements.
+	\subparagraph{Relative Difference:}
+	To evaluate the calculated volumetric flow rates, a relative difference was computed for each. For some arbitrary volumetric flow rate computed under a scenario X, the difference relative to the measured flow rate, $Q_m$, was calculated as:
+	\begin{equation}
+		Q_{mX}=\frac{Q_m - Q_X}{Q_X}\times100\%
+	\end{equation}
+	
+\end{document}
