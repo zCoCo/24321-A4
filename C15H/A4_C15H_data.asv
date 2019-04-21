@@ -6,16 +6,7 @@ function T = A4_C15H_data()
     T = ETable('A4_C15_H_good.xlsx', ["SampNum", "ID", "notes", "FanSpeed", "Hstat", "Tamb", "rho", "Vinf", "Y", "Hp", "Vp"]);
     
     T.unitsList = ["","","","%", "mm", "$$^{\circ}C$$", "$$^{kg}/_{m^{3}}$$", "$$^{m}/{s}$$", "mm", "mm", "$$^{m}/{s}$$"];
-    
-    %% Set Experimental IDs:
-    % Fin IDs:
-    T.addprop('SMOOTH'); T.addprop('ROUGH'); T.addprop('OBST');
-    T.set('SMOOTH', 1); T.set('ROUGH', 2); T.set('OBST', 3);
-    
-    T.add('Position ID', 'Pos', mod(floor((T.ID-1)/11),3)+1);
-    T.add('X Position [mm]', 'X', 0 + (T.Pos==2).*8.0 + (T.Pos==3)*12.6);
-    T.add('Velocity Setting [$^{m}/{s}$]', 'Vset', 5.^(mod(floor((T.ID-1)/33),2)+1));
-    
+   
     %% Convert Units:
     T.edit('Hstat', T.Hstat * 0.001); % Convert to Meters
     T.edit('Hp', T.Hp * 0.001); % Convert to Meters
@@ -28,12 +19,28 @@ function T = A4_C15H_data()
     T.rename('Vp', 'Pitot Velocity from Software [$$^{m}/{s}$$]');
     
     %% Compress Table so only one entry with approp. uncertainty per measurement set:
-    T = binCompressTable(T, ["SampNum", "ID", "FanSpeed", "Hstat", "Tamb", "rho", "Vinf", "Y", "Hp", "Vp", "Pos", "X", "Vset"], 'ID', 1:198, 0.1, T.ID==T.ID);
+    T = binCompressTable(T, ["SampNum", "ID", "FanSpeed", "Hstat", "Tamb", "rho", "Vinf", "Y", "Hp", "Vp"], 'ID', 1:198, 0.1, T.ID==T.ID);
 
+    %% Set Experimental IDs:
+    % Fin IDs:
+    T.addprop('SMOOTH'); T.addprop('ROUGH'); T.addprop('OBSTACLE');
+    T.set('SMOOTH', 1); T.set('ROUGH', 2); T.set('OBSTACLE', 3);
+    % Placement IDs:
+    T.addprop('UPSTREAM'); T.addprop('CENTERSTREAM'); T.addprop('DOWNSTREAM');
+    T.set('UPSTREAM', 1); T.set('CENTERSTREAM', 2); T.set('DOWNSTREAM', 3);
+    
+    T.add('Fin ID', 'Fin', mod(floor((T.ID-1)/66),3)+1);
+    T.add('Velocity Setting [$^{m}/{s}$]', 'Vset', 5.^(mod(floor((T.ID-1)/33),2)+1));
+    T.add('Position ID', 'Pos', mod(floor((T.ID-1)/11),3)+1);
+    T.add('X Position [mm]', 'X', 0 + (T.Pos==2).*8.0 + (T.Pos==3)*12.6);
+
+    
     %% Add Calculated Columns:
     % Constants:
     g = 9.81;
     rho_fluid = 997; % Assume Water
+    nu_air = 15.32e-6; % [m2 /s] Kinematic Viscosity of Air
+    dx = 0.05e-3; % Uncertainty in x-Measurement
     
     T.add('Calculated Static Pressure [Pa]', 'Pstat', rho_fluid .* g .* T.Hstat);
     T.add('Calculated Pitot Pressure [Pa]', 'Pp', rho_fluid .* g .* T.Hp);
@@ -44,16 +51,23 @@ function T = A4_C15H_data()
         sqrt(...
             + (g*rho_fluid*sign(T.Hp - T.Hstat).^2)./(2*T.rho.*abs(T.Hp - T.Hstat)) .* T.dHstat.^2 ...
             + (g*rho_fluid*sign(T.Hp - T.Hstat).^2)./(2*T.rho.*abs(T.Hp - T.Hstat)) .* T.dHp.^2 ...
-            + (g*rho_fluid*abs(T.Hp - T.Hstat))/(2*T.rho^3) .* T.drho.^2 ...
+            + (g*rho_fluid*abs(T.Hp - T.Hstat))./(2*T.rho.^3) .* T.drho.^2 ...
+        )...
+    );
+    T.add('Reynolds Number', 'Rex', T.rho .* T.Vcalc .* T.x ./ nu_air);
+    T.add('Uncertainty in Reynolds Number', 'dRex', ...
+        sqrt(...
+            + (T.Vcalc .* T.x ./ nu_air).^2 .* T.drho...
+            + (T.rho .* T.Vcalc .* T.x ./ nu_air).^2 .* 
         )...
     );
 
     % Enforce No-Slip Condition:
-    Vns = T.Valc; dVns = T.dVcalc;
+    Vns = T.Vcalc; dVns = T.dVcalc;
     Vns(T.Y == 0) = 0;
     dVns(T.Y == 0) = 0;
     T.edit('Vcalc', Vns);
-    T.edit('dVcalc', Vns);
+    T.edit('dVcalc', dVns);
 end
 
 function tab2 = binCompressTable(tab, namesX, nameB, bins, window, range)

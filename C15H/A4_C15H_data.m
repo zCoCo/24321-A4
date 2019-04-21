@@ -39,6 +39,8 @@ function T = A4_C15H_data()
     % Constants:
     g = 9.81;
     rho_fluid = 997; % Assume Water
+    nu_air = 15.32e-6; % [m2 /s] Kinematic Viscosity of Air
+    dx = 0.05e-3; % [m] Uncertainty in x-Measurement
     
     T.add('Calculated Static Pressure [Pa]', 'Pstat', rho_fluid .* g .* T.Hstat);
     T.add('Calculated Pitot Pressure [Pa]', 'Pp', rho_fluid .* g .* T.Hp);
@@ -52,13 +54,22 @@ function T = A4_C15H_data()
             + (g*rho_fluid*abs(T.Hp - T.Hstat))./(2*T.rho.^3) .* T.drho.^2 ...
         )...
     );
-
     % Enforce No-Slip Condition:
     Vns = T.Vcalc; dVns = T.dVcalc;
     Vns(T.Y == 0) = 0;
     dVns(T.Y == 0) = 0;
     T.edit('Vcalc', Vns);
     T.edit('dVcalc', dVns);
+    
+   
+    T.add('Reynolds Number', 'Rex', T.rho .* T.Vinf .* (T.X/1000) ./ nu_air);
+    T.add('Uncertainty in Reynolds Number', 'dRex', ...
+        sqrt(...
+            + (T.Vinf .* (T.X/1000) ./ nu_air).^2 .* T.drho.^2 ...
+            + (T.rho .* (T.X/1000) ./ nu_air).^2 .* T.dVinf.^2 ...
+            + (T.rho .* T.Vinf ./ nu_air).^2 .* dx^2 ...
+        )...
+    );
 end
 
 function tab2 = binCompressTable(tab, namesX, nameB, bins, window, range)
