@@ -111,14 +111,54 @@
 		Re_x = \frac{\rho_a V_{\infty rel} x}{\nu_a}
 	\end{equation}
 	
-	\paragraph{Experimental Boundary Layer Thickness}
+	\paragraph{Calculated Experimental Boundary Layer Thickness} The method of least squares was employed. By deriving the relationship from equation 20, 21, and 22 of the "Best-Fit Polynomial Approximation Handout", the following was regression functions were determined:
+	\hfill\break
+	For laminar flow:
+	\begin{equation}
+		V(y) = a*y^3 + b*y
+	\end{equation}
+	where
+	$$ A = \sum_{i=1}^{n}{y_i^6}$$
+	$$ B = \sum_{i=1}^{n}{y_i^4}$$
+	$$ C = \sum_{i=1}^{n}{V_{c_i} y_i^3}$$
+	$$ D = \sum_{i=1}^{n}{y_i^4}$$
+	$$ E = \sum_{i=1}^{n}{y_i^2}$$
+	$$ F = \sum_{i=1}^{n}{V_{c_i} y_i}$$
+	\begin{equation}
+		a = \frac{CE- FB}{AE - BD}
+	\end{equation}
+	\begin{equation}
+	a = \frac{AF - CD}{AE - BD}
+	\end{equation}
+	\hfill\break\break
+	For turbulent flow:
+	\begin{equation}
+	V(y) = cy^{1/7}
+	\end{equation}
+	where
+	\begin{equation}
+	c = \frac{\sum_{i=1}^{n}{V_{c_i} y_i^{1/7}}}{\sum_{i=1}^{n}{y_i^{2/7}}}
+	\end{equation}
+	\hfill\break\break
+	With a regression completed, in both cases the boundary layer is determined by MATLAB to solve the definition of a boundary layer given in the relevant portion of the assignment:
+	\begin{equation}
+		V(\delta) = 0.95V_{\infty rel}
+	\end{equation}
+	
+	\hfill\break\break
+	In both cases, uncertainties of the regression models were calculated using a 95\% confidence interval based on the standard error:
+	
+	\begin{equation}
+	\delta \delta = 1.96SE = 1.96\sqrt{\frac{\sum_{i=1}^{n}{V(y_i) - \frac{1}{n}\sum_{i=1}^{n}{V_{c_i}}}}{n-2}}
+	\end{equation}
+	
 	
 	\paragraph{Theoretical Boundary Layer Thickness}
 	For laminar flow, theoretical boundary layer thickness was determined using equation 18 of the assignment:
 	
 	\hfill\break
 	For turbulent flow, equation 19 of the assignment:
-	\hfill\break
+	\hfill\break\break
 	For turbulent flow which starts at the leading edge (smooth plate with obstacle), equation 20 of the assignment:
 	
 	\paragraph{Choosing Which Model to Use:} For the smooth plate, whether to use a laminar or turbulent flow model was determined strictly by the Reynolds number (as given above). For the rough plate, both the laminar and turbulent flow curves were regressed and which ever had the lower standard error was used. For the smooth plate with the obstacle, the flow was always assumed to be turbulent, starting at the leading edge.
