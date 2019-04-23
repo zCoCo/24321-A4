@@ -314,7 +314,10 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
         
         % Produces a Stylized Plot of the Two Variables with the Given
         % Short Names Subject to the Given Range. Returns the plot handle.
-        function ph = plot(obj, nameX, nameY, range)
+        function ph = plot(obj, nameX, nameY, range, format)
+            if nargin < 5
+                format = 'o-';
+            end
             % Obtain Data:
             xs = obj.get(char(nameX));
             ys = obj.get(char(nameY));
@@ -325,7 +328,7 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
             end
             
             % Plot Data:
-            ph = plot(xs(range), ys(range), 'o-');
+            ph = plot(xs(range), ys(range), format);
             obj.label(nameX, nameY);
         end
         
@@ -333,7 +336,10 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
         % Short Names Subject to the Given Range with Vertical Error Bars 
         % from the Variable with the Short Name nameE. Errorbars will only 
         % show up every n datapoints. Returns the plot handle.
-        function eph = errorplot(obj, nameX, nameY, nameE, n, range)
+        function eph = errorplot(obj, nameX, nameY, nameE, n, range, format)
+            if nargin < 7
+                format = 'o-';
+            end
             % Obtain Data:
             xs = obj.get(char(nameX));
             ys = obj.get(char(nameY));
@@ -348,7 +354,7 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
             end
             
             % Plot Data:
-            eph = errorbar(xs(range), ys(range), ebars(range), 'o-');
+            eph = errorbar(xs(range), ys(range), ebars(range), format);
             
             obj.label(nameX, nameY);
         end
