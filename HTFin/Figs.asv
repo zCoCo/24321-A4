@@ -11,8 +11,7 @@ freeConvRun = [1,1,2,2];
 for r = 1:2
     syms = ["B","C","S","A"];
     for j = 1:4
-        colors = ["r","g","b","m","c"];
-        lines = ["-","--",":","-."];
+        colors = ['r','g','b','m'];
         if r == freeConvRun(j)
             figure(freeConvFig);
         else
@@ -23,7 +22,7 @@ for r = 1:2
         for i=1:5
             name = char("T" + sym + "_" + i);
             errname = char("dT" + sym + "_" + i);
-            tab.errorplot('tAbs',name, errname,75,tab.run==r,char(lines(j)+colors(i)));
+            tab.errorplot('tAbs',name, errname,75,tab.run==r,'-'+colors(j));
         end
         hold off
     end
