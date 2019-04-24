@@ -1,17 +1,30 @@
 function table1()
+    tab = A4_TF_data();
+    
+    % Therm. Phys. Prop.:
+    Pr_a = 0.707; % SI base
+    k_a = 26.2e-3; % SI base
+    nu_a = 15.81e-6; % SI base
+    
+    x = [1.50 77.78 154.15 230.43 303.39]*1e-3; % X-Positions of Each P
+    L = 306.36;
+    ks = 1;
+    D = 12.7e-3;
+    
     % Setup Parameters:
-    L = 1;
-    k = 1;
-    D = 1;
-    x = (1:5)/10;
+    U = 4.77; %m/s
+    dU = 1.73; %m/s
+    Re = U * D
+    
 
+    
 
     % Uses Gradient Descent to Determine the Value of H which Best Fits the
     % Measured Data.
-    function [he,dhe] = gradDescentH(Te,x, stepSize, maxIter, tol)
+    function [he,dhe] = gradDescentH(Te,x,k, stepSize, maxIter, tol)
+        Tb = Te(1);
         h = zeros(size(Te));
         h(1) = % TODO: Seed with good initial guess.
-        dh = zeros(size(Te)); % Initial Value doesn't matter, it will be replaced.
         
         n = 1;
         F = 0; % Squared Error
@@ -32,14 +45,12 @@ function table1()
             
             % Perform Gradient Descent Decrement on h and Compute Current dh:
             h(n+1) = h(n) - stepSize*dFdh;
-            dh(n+1) = 1.96*F / (numel(Te) - 2); % 1.96*Standard Error of Regression -> 95% Confidence Interval
             
         i = i+1;
         end
         
         % Grab Final Results:
         he = h(end);
-        dhe = dh(end);
         
         % Plot Process to Verify Convergence:
         figure();

@@ -20,14 +20,19 @@ for r = 1:2
         end
         hold on
         sym = syms(j);
-        for i=1:4
+        for i=1:5
             name = char("T" + sym + "_" + i);
             errname = char("dT" + sym + "_" + i);
-            tab.errorplot('tAbs',name, errname,75,tab.run==r,char(lines(i)+colors(j)));
-            ylabel('Temperature (K)','Interpreter','latex');
-        end
-        if i > 4
-            tab.errorplot('tAbs',name,errname,75,tab.run==r,'Marker','>','MarkerIndices',100)
+            if i > 4
+                ph = tab.errorplot('tAbs',name,errname,75,tab.run==r);
+                ph.Marker = '*';
+                ph.MarkerSize = 1;
+                ph.MarkerEdgeColor = 'black';
+                ph.MarkerFaceColor = 'black';
+            else
+                tab.errorplot('tAbs',name, errname,75,tab.run==r,char(lines(i)+colors(j)));
+            end
+            ylabel('Temperature [K]','Interpreter','latex');
         end
         hold off
     end
