@@ -2,22 +2,21 @@ function table1()
     tab = A4_TF_data();
     
     % Therm. Phys. Prop.:
+    g = 9.81;
     Pr_a = 0.707; % SI base
     k_a = 26.2e-3; % SI base
     nu_a = 15.81e-6; % SI base
     
     x = [1.50 77.78 154.15 230.43 303.39]*1e-3; % X-Positions of Each P
     L = 306.36;
-    ks = 1;
+    ks = [116, 401, 14.9, 167]; % B, Cu, SS, Al
     D = 12.7e-3;
     
     % Setup Parameters:
     U = 4.77; %m/s
     dU = 1.73; %m/s
-    Re = U * D
-    
-
-    
+    Re = U * D / nu_a;
+    Ra = 
 
     % Uses Gradient Descent to Determine the Value of H which Best Fits the
     % Measured Data.

@@ -6,21 +6,32 @@ function table1()
     k_a = 26.2e-3; % SI base
     nu_a = 15.81e-6; % SI base
     
+    x = [1.50 77.78 154.15 230.43 303.39]*1e-3; % X-Positions of Each P
+    L = 306.36;
+    % SS
+    ks = 14.9 WmK at 300 K
+Incropera, Frank P, et al. Fundamentals of Heat and Mass Transfer. 7th ed., John Wiley & Sons, 2011.
+Aluminum 6061:
+	kAl,6061=167WmK at 298 K
+Aluminum 6061-T6; 6061-T651, www.matweb.com/search/datasheet_print.aspx?matguid=1b8c06d0ca7c456694c7777d9e10be5b.
+Copper:
+	kCu,pure=401 WmK at 300 K
+Incropera, Frank P, et al. Fundamentals of Heat and Mass Transfer. 7th ed., John Wiley & Sons, 2011.
+Naval Brass:
+	kB=116 WmK at 293 K
+    D = 12.7e-3;
+    
     % Setup Parameters:
     U = 4.77; %m/s
     dU = 1.73; %m/s
-    Re = U
+    Re = U * D
     
-    x = (1:5)/10; % X-Positions of Each P
-    L = 1;
-    k = 1;
-    D = 1;
 
     
 
     % Uses Gradient Descent to Determine the Value of H which Best Fits the
     % Measured Data.
-    function [he,dhe] = gradDescentH(Te,x, stepSize, maxIter, tol)
+    function [he,dhe] = gradDescentH(Te,x,k, stepSize, maxIter, tol)
         Tb = Te(1);
         h = zeros(size(Te));
         h(1) = % TODO: Seed with good initial guess.
