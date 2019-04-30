@@ -6,12 +6,12 @@ function T = A4_HT36C_A_data()
     % Constants:
     DiH = 8.9e-3; % [m], Inner Diameter of the Hot Fluid Tube
     DoH = 9.5e-3; % [m], Outer Diameter of the Hot Fluid Tube
-    DoC = 14e-3; % [m], Outer Diameter of the Cold Fluid Tube
+    DiC = 14e-3; % [m], Inner Diameter of the Outer Shell of Cold Fluid Annulus
     
     % Constant (or assumed constant) Uncertainties:
-    dH = 
     
-    % From Table A-6 in Incropera, et al:
+    % From Table A-6 in Incropera, et al, eval at mean temps (321.15K for
+    % hot, 297.27 for cold):
     rhoH = 998.7; % [kg/m3], Density of Hot Fluid (water)
     cpH = 4181; % [J/kg/K], Specific Heat Capacity
     muH = 5.66e-4; % [Ns/m2], Viscosity
@@ -27,11 +27,18 @@ function T = A4_HT36C_A_data()
     T.edit('FCold', T.FCold*1.667e-5); % L/min -> m3/s
     
     % Compute Properties:
-    T.add('Initial Temperature Difference', 'DT1', T.Thi - Tco); % For COUNTERFLOW
-    T.add('Final Temperature Difference', 'DT2', T.Tho - Tci); % For COUNTERFLOW
+    T.add('Initial Temperature Difference', 'DT1', T.Thi - T.Tco); % For COUNTERFLOW
+    T.add('Final Temperature Difference', 'DT2', T.Tho - T.Tci); % For COUNTERFLOW
     
     T.add('Hot Fluid Mass Flow Rate [^{kg}/_s]', 'mHot', T.FHot*rhoH);
     T.add('Cold Fluid Mass Flow Rate [^{kg}/_s]', 'mCold', T.FCold*rhoC);
+    
+    T.add('Hot Fluid Reynolds Number', 'ReH', 4 .* rhoH * T.FHot ./ pi ./ DiH ./ muH);
+    T.add('Cold Fluid Reynolds Number', 'ReC', 4 .* rhoC * T.FCold .* (DiC - DoH) ./ pi ./ (DiC^2 - DoH^2) ./ muC);
+    
+    T.add('Hot Fluid Thermal and Hydraulic Entry Entry  ', 'xfd', 10 * (DiC - DoH));
+    T.add('Cold Fluid Hydraulic Entry Length', 'xfdh', 0.05 .* T.ReH .* (DiC - DoH));
+    T.add('Cold Fluid Thermodynamic Entry Length', 'xfdh', 0.05 .* T.ReH .* PrC .* (DiC - DoH));
     
     T.add('Hot Fluid Heat Capacity [W/K]', 'CH', T.mHot .* cpH);
     T.add('Cold Fluid Heat Capacity [W/K]', 'CC', T.mCold .* cpC);
