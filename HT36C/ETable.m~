@@ -522,23 +522,16 @@ classdef ETable < dynamicprops & matlab.mixin.SetGet
         end
         
         % Exports All the Columns Given in 'cols' (by Shortname) to an 
-        % Excel File with the Given 'filename'. Number of sigfigs for
-        % numbers can be given with sigfigs (4 by default).
-        % If no columns are given, all columns will be exported.
-        function export2Excel(obj, filename, cols, sigfigs)
-            if nargin < 3
-                cols = obj.shortNames;
-            end
-            if nargin < 4
-                sigfigs = 4;
-            end
-
-            table = array2table(string(zeros(height(obj.data), length(cols))));
-            for i = 1:numel(cols)
-                table.Properties.VariableNames{i} = char(cols(i));
-                table{:,i} = string(num2str(obj.get(char(cols(i))), sigfigs));
-            end
-            writetable(table, char(string(filename)+".xlsx"));
+        % Excel File with the Given 'filename'
+        function exportToExcel(filename, cols)
+            
+    cols = ["mCold" "mHot" "Tci" "Thi" "Tco" "Tho" "qCold" "qHot" "eps" "DTm" "Umeas" "dUmeas" "hin" "hout" "Rtube" "Upred" "PDU"];
+    table2 = array2table(string(zeros(height(T.data), length(cols))));
+    for i = 1:numel(cols)
+        table2.Properties.VariableNames{i} = char(cols(i));
+        table2{:,i} = string(num2str(T.get(char(cols(i))), 4)); % 4 Sig. Figs.
+    end
+    writetable(tab, char("Comp-A4_HT36C_"+experiment+".xlsx"));
         end
     end
     

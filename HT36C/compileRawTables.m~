@@ -1,5 +1,5 @@
 function compileRawTables()
-    experiments = ["A" "B" "C" "D"];
+    experiments = ["A" "B" "C"];
     trials = [5 2 2];
     for i = 1:numel(experiments)
         experiment = experiments(i);
@@ -7,7 +7,7 @@ function compileRawTables()
         % run,NTubes,L,FHot,FCold,Thi,Tho,Tci,Tco,x1,T1,...x10,T10],flowDir
         % at 1 row per run.
         output = num2cell(zeros(trials(i), 10+2*10));
-        xtable = num2cell(zeros(0, 6)); % Columns: NTubes, flowDir, L, x, THot, TCold
+        xtable = num2cell(zeros(trials(i)*5, 6)); % Columns: NTubes, flowDir, L, x, THot, TCold
 
         for run = 1:trials(i)
             T = ETable(char("A4_HT36C_"+experiment+"_"+run+".xlsx"), ["NTubes", "T"+(1:10), "pumpHotSett", "FHot", "valveColdSett", "FCold", "pumpDir","flowDir", "NHot", "THot", "NCold", "TCold", "x"]);
@@ -22,7 +22,8 @@ function compileRawTables()
             output{run,9} = max(T.TCold);
             output{run, 9+20+1} = T.flowDir(1);
 
-            for r = 1:numel(T.NHot) % loop through each row of the leftmost temperature
+            Nr = numel(T.NHot);
+            for r = 1:Nr % loop through each row of the leftmost temperature
                 probeHot = str2double(regexp(string(T.NHot(r)), '\d*', 'match'));
                 probeCold = str2double(regexp(string(T.NCold(r)), '\d*', 'match'));
 
@@ -31,9 +32,8 @@ function compileRawTables()
                 output{run, (probeCold-1)*2 + 10} = T.x(r);
                 output{run, (probeCold-1)*2 + 11} = T.TCold(r);
             end
-            
             nx = numel(T.x);
-            a = size(xtable,1) + 1;
+            a = (run-1)*Nr*nx;
             b = a + nx - 1;
             xtable(a:b, 1) = num2cell(T.NTubes(1));
             xtable(a:b, 2) = num2cell(T.flowDir(1));

@@ -1,7 +1,8 @@
-function T = A4_HT36C_A_data()
+function T = A4_HT36C_B_data()
     strs(1:2:2*10) = "x"+(1:10); % Create interleaved header strings (x1,T1,x2,T2,...)
     strs(2:2:2*10+1) = "T"+(1:10);
-    T = ETable('Comp-A4_HT36C_A.xlsx', ["run","NTubes","L", "FHot","FCold", "Thi","Tho", "Tci","Tco", strs, "flowDir"]);
+    T = ETable('Comp-A4_HT36C_B.xlsx', ["run","NTubes","L", "FHot","FCold", "Thi","Tho", "Tci","Tco", strs, "flowDir"]);
+    Tx = ETable('XTable-A4_HT36C_B.xlsx', ["NTubes", "flowDir", "L", "x", "THot", "TCold"]);
     
     % Constants:
     DiH = 8.9e-3; dDiH = 0.05e-3; % [m], Inner Diameter of the Hot Fluid Tube
@@ -46,8 +47,13 @@ function T = A4_HT36C_A_data()
         name = char("T" + i);
         T.edit(name, T.get(name) + 273.15);
     end
+    Tx.edit('THot', Tx.THot + 273.15);
+    Tx.edit('TCold', Tx.TCold + 273.15);
     
     % Compute Uncertainties:
+    Tx.add('Uncertainty in Hot Fluid Temperature', 'dTHot', max(2.2, 0.0075*(Tx.THot-Tinf)));
+    Tx.add('Uncertainty in Cold Fluid Temperature', 'dTCold', max(2.2, 0.0075*(Tx.TCold-Tinf)));
+    
     T.add('Uncertainty in Hot Fluid Inlet Temperature', 'dThi', max(2.2, 0.0075*(T.Thi-Tinf)));
     T.add('Uncertainty in Hot Fluid Outlet Temperature', 'dTho', max(2.2, 0.0075*(T.Tho-Tinf)));
     T.add('Uncertainty in Cold Fluid Inlet Temperature', 'dTci', max(2.2, 0.0075*(T.Tci-Tinf)));
@@ -58,15 +64,19 @@ function T = A4_HT36C_A_data()
     end
     
     % Compute Properties:
-    if strcmp(string(T.flowDir(1)), "Countercurrent")
-        T.add('Initial Temperature Difference', 'DT1', T.Thi - T.Tco); % For COUNTERFLOW
-        T.add('Final Temperature Difference', 'DT2', T.Tho - T.Tci); % For COUNTERFLOW
-    elseif strcmp(string(T.flowDir(1)), "Cocurrent")
-        T.add('Initial Temperature Difference', 'DT1', T.Thi - T.Tci); % For PARALLELFLOW
-        T.add('Final Temperature Difference', 'DT2', T.Tho - T.Tco); % For PARALLELFLOW
-    else
-        warning('Flow Not Specified as Countercurrent or Cocurrent');
+    xs = Tx.x(Tx.flowDir == "Cocurrent");
+    for i = 0:4
+        T.add(char("Hot Fluid Temperature at Checkpoint "+i), char("Th"+i), Tx.THot(Tx.x == xs(i+1)));
+        T.add(char("Uncertainty in Hot Fluid Temperature at Checkpoint "+i), char("dTh"+i), Tx.dTHot(Tx.x == xs(i+1)));
+
+        Tcs = [Tx.TCold(Tx.x == xs(i+1) & Tx.flowDir == "Cocurrent"); Tx.TCold(Tx.x == xs(end-i) & Tx.flowDir == "Countercurrent")];
+        dTcs = [Tx.dTCold(Tx.x == xs(i+1) & Tx.flowDir == "Cocurrent"); Tx.dTCold(Tx.x == xs(end-i) & Tx.flowDir == "Countercurrent")];
+        T.add(char("Cold Fluid Temperature at Checkpoint "+i), char("Tc"+i), Tcs);
+        T.add(char("Uncertainty in Cold Fluid Temperature at Checkpoint "+i), char("dTc"+i), dTcs);
     end
+    
+    T.add('Initial Temperature Difference', 'DT1', (T.Thi - T.Tco) .* strcmp(string(T.flowDir), "Countercurrent") + (T.Thi - T.Tci).*strcmp(string(T.flowDir(1)), "Cocurrent"));
+    T.add('Final Temperature Difference', 'DT2', (T.Tho - T.Tci) .* strcmp(string(T.flowDir), "Countercurrent") + (T.Tho - T.Tco).*strcmp(string(T.flowDir(1)), "Cocurrent"));
         
     
     T.add('Hot Fluid Mass Flow Rate [^{kg}/_s]', 'mHot', T.FHot*rhoH);
@@ -89,8 +99,8 @@ function T = A4_HT36C_A_data()
     
     T.add('Heat Exchanger Effectiveness', 'eps', T.qHot ./ T.Cmin ./ (T.Thi - T.Tci));
     
-    T.add('Log Mean Temperature Difference', 'DTm', log(T.DT2 ./ T.DT1));
-    T.add('Overall Heat Transfer Coefficient Measured from LMTD', 'Umeas', T.qHot .* T.DTm ./ (pi.*DiH.*T.L) ./ (T.DT2 - T.DT1));
+    T.add('Log Mean Temperature Difference', 'DTm', (T.DT2 - T.DT1)./log(T.DT2 ./ T.DT1));
+    T.add('Overall Heat Transfer Coefficient Measured from LMTD', 'Umeas', T.qHot ./ (pi.*DiH.*T.L) ./ T.DTm);
     
     Thi = T.Thi; Tho = T.Tho; % Shorthand for easier reading in following eq. (be careful using them outside of that)
     Tco = T.Tco; Tci = T.Tci;
@@ -110,6 +120,10 @@ function T = A4_HT36C_A_data()
         )...
     );
 
+    for flow = ["Cocurrent" 
+    figure();
+    errorbars(Tx.T
+
     T.add('Inner Tube Heat Transfer Coefficient', 'hin', (kH./DiH) .* 0.023.*(T.ReH.^(4/5)).*(PrH.^(0.3)));
     Nuoo = interp1([0.6,0.8],[5.099,5.24], DiH/DiC, 'linear');
     tho = interp1([0.6,0.8],[0.2455,0.298], DiH/DiC, 'linear');
@@ -117,10 +131,8 @@ function T = A4_HT36C_A_data()
     T.add('Tube Boundary Thermal Resistance', 'Rtube', log(DoH/DiH)./2./pi./kSS./T.L);
     
     T.add('Predicted Overall Heat Transfer Coefficient w.r.t. Inner Surface', 'Upred', 1./(1./T.hin + pi*DiH.*L.*T.Rtube + (DiH./DoH)./T.hout));
-    T.add('Percentage Difference btwn. U_{meas} and U_{pred}', 'PDU', (T.Umeas-T.Upred)./T.Upred);
+    T.add('Percentage Difference btwn. U_{meas} and U_{pred}', 'PDU', 100*(T.Umeas-T.Upred)./T.Upred);
     
-    % Export Table 2:
-    cols = ["mC" "mH" "Tci" "Thi" "Tco" "Tho" "qCold" "qHot" "eps" "DTm" "Umeas" "dUmeas" "hin" "hout" "Rtube" "Upred" "PDU"];
-    table2 = zeros(lengt
-    table2.Properties.VariableNames(
+    % Export Table 5:
+    T.export2Excel('Table5', ["mCold" "mHot" "Th"+(0:4) "Tc"+(0:4) "qCold" "qHot" "eps" "DTm" "Umeas" "dUmeas" "hin" "hout" "Rtube" "Upred" "PDU"], 4);
 end

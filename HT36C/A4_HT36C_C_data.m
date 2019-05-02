@@ -1,7 +1,7 @@
-function T = A4_HT36C_A_data()
+function T = A4_HT36C_C_data()
     strs(1:2:2*10) = "x"+(1:10); % Create interleaved header strings (x1,T1,x2,T2,...)
     strs(2:2:2*10+1) = "T"+(1:10);
-    T = ETable('Comp-A4_HT36C_A.xlsx', ["run","NTubes","L", "FHot","FCold", "Thi","Tho", "Tci","Tco", strs, "flowDir"]);
+    T = ETable('Comp-A4_HT36C_C.xlsx', ["run","NTubes","L", "FHot","FCold", "Thi","Tho", "Tci","Tco", strs, "flowDir"]);
     
     % Constants:
     DiH = 8.9e-3; dDiH = 0.05e-3; % [m], Inner Diameter of the Hot Fluid Tube
@@ -89,8 +89,8 @@ function T = A4_HT36C_A_data()
     
     T.add('Heat Exchanger Effectiveness', 'eps', T.qHot ./ T.Cmin ./ (T.Thi - T.Tci));
     
-    T.add('Log Mean Temperature Difference', 'DTm', log(T.DT2 ./ T.DT1));
-    T.add('Overall Heat Transfer Coefficient Measured from LMTD', 'Umeas', T.qHot .* T.DTm ./ (pi.*DiH.*T.L) ./ (T.DT2 - T.DT1));
+    T.add('Log Mean Temperature Difference', 'DTm', (T.DT2 - T.DT1)./log(T.DT2 ./ T.DT1));
+    T.add('Overall Heat Transfer Coefficient Measured from LMTD', 'Umeas', T.qHot ./ (pi.*DiH.*T.L) ./ T.DTm);
     
     Thi = T.Thi; Tho = T.Tho; % Shorthand for easier reading in following eq. (be careful using them outside of that)
     Tco = T.Tco; Tci = T.Tci;
@@ -117,10 +117,8 @@ function T = A4_HT36C_A_data()
     T.add('Tube Boundary Thermal Resistance', 'Rtube', log(DoH/DiH)./2./pi./kSS./T.L);
     
     T.add('Predicted Overall Heat Transfer Coefficient w.r.t. Inner Surface', 'Upred', 1./(1./T.hin + pi*DiH.*L.*T.Rtube + (DiH./DoH)./T.hout));
-    T.add('Percentage Difference btwn. U_{meas} and U_{pred}', 'PDU', (T.Umeas-T.Upred)./T.Upred);
+    T.add('Percentage Difference btwn. U_{meas} and U_{pred}', 'PDU', 100*(T.Umeas-T.Upred)./T.Upred);
     
-    % Export Table 2:
-    cols = ["mC" "mH" "Tci" "Thi" "Tco" "Tho" "qCold" "qHot" "eps" "DTm" "Umeas" "dUmeas" "hin" "hout" "Rtube" "Upred" "PDU"];
-    table2 = zeros(lengt
-    table2.Properties.VariableNames(
+    % Export Table 7:
+    T.export2Excel('Table7', ["mCold" "mHot" "Tci" "Thi" "Tco" "Tho" "qCold" "qHot" "eps" "DTm" "Umeas" "dUmeas" "hin" "hout" "Rtube" "Upred" "PDU"], 4);
 end
