@@ -1,6 +1,6 @@
 function compileRawTables()
     experiments = ["A" "B" "C" "D"];
-    trials = [5 2 2];
+    trials = [5 2 2 4];
     for i = 1:numel(experiments)
         experiment = experiments(i);
         % Create a Table with Columns:

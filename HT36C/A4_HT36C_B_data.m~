@@ -29,8 +29,6 @@ function T = A4_HT36C_B_data()
     % Calculated Constant (or assumed constant) Uncertainties:
     dF = 8.33e-7; % m^3/s
     dFH = dF; dFC = dF;
-    dmH = dFH * rhoH;
-    dmC = dFH * rhoC;
     
     % Convert Units:
     T.edit('L', T.L/1000); % mm -> m
@@ -49,6 +47,7 @@ function T = A4_HT36C_B_data()
     end
     Tx.edit('THot', Tx.THot + 273.15);
     Tx.edit('TCold', Tx.TCold + 273.15);
+    Tx.edit('x', Tx.x/1000); % mm -> m
     
     % Compute Uncertainties:
     Tx.add('Uncertainty in Hot Fluid Temperature', 'dTHot', max(2.2, 0.0075*(Tx.THot-Tinf)));
@@ -80,6 +79,7 @@ function T = A4_HT36C_B_data()
         
     
     T.add('Hot Fluid Mass Flow Rate [^{kg}/_s]', 'mHot', T.FHot*rhoH);
+    T.add('Uncertainty in Hot Fluid Mass Flow Rate [^{kg}/_s]', 'dmH', sqrt(T.FHot.^2 * drhoH^2 + rhoH^2 * dF^2));
     T.add('Cold Fluid Mass Flow Rate [^{kg}/_s]', 'mCold', T.FCold*rhoC);
     
     T.add('Hot Fluid Reynolds Number', 'ReH', 4 .* rhoH * T.FHot ./ pi ./ DiH ./ muH);
@@ -107,6 +107,7 @@ function T = A4_HT36C_B_data()
     dThi = T.dThi; dTho = T.dTho;
     dTco = T.dTco; dTci = T.dTci;
     mH = T.mHot;
+    T.FHot = T.FHot; rhoH = rhoH; cpH = cpH;
     D = DiH; L = T.L;
     T.add('Uncertainty in Measured Overall Heat Transfer Coefficient', 'dUmeas', ...
         sqrt(...
@@ -114,15 +115,37 @@ function T = A4_HT36C_B_data()
             +((cpH.*mH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho).^2) - (cpH.*mH.*(Thi - Tho))./(D.*L.*pi.*(Tco - Thi).*(Tci - Tco + Thi - Tho)) - (cpH.*mH.*log((Tci - Tho)./(Tco - Thi)))./(D.*L.*pi.*(Tci - Tco + Thi - Tho))).^2 .* dThi.^2 ...
             +((cpH.*mH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho).^2) - (cpH.*mH.*(Thi - Tho))./(D.*L.*pi.*(Tci - Tho).*(Tci - Tco + Thi - Tho))).^2 .* dTci.^2 ...
             +((cpH.*mH.*(Thi - Tho))./(D.*L.*pi.*(Tco - Thi).*(Tci - Tco + Thi - Tho)) - (cpH.*mH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho).^2)).^2 .* dTco.^2 ...
-            +((cpH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho))).^2 .* dmH.^2 ...
+            +((cpH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho))).^2 .* T.dmH.^2 ...
             +((cpH.*mH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.^2.*L.*pi.*(Tci - Tco + Thi - Tho))).^2 .* dDiH.^2 ...
             +((mH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho))).^2 .* dcpH.^2 ...
-        )...
+        ) .* strcmp(string(T.flowDir), "Countercurrent")...
+        + sqrt(...
+            (-(T.FHot*cpH*rhoH*log((Tco - Tho)./(Tci - Thi)))./(D_iH*L*pi*(Tci - Tco - Thi + Tho)) - (T.FHot*cpH*rhoH*(Thi - Tho))./(D_iH*L*pi*(Tco - Tho)*(Tci - Tco - Thi + Tho)) - (T.FHot*cpH*rhoH*log((Tco - Tho)./(Tci - Thi))*(Thi - Tho))./(D_iH*L*pi*(Tci - Tco - Thi + Tho)^2)).^2 .* dTho.^2 ...
+            +((T.FHot*cpH*rhoH*log((Tco - Tho)./(Tci - Thi)))./(D_iH*L*pi*(Tci - Tco - Thi + Tho)) + (T.FHot*cpH*rhoH*(Thi - Tho))./(D_iH*L*pi*(Tci - Thi)*(Tci - Tco - Thi + Tho)) + (T.FHot*cpH*rhoH*log((Tco - Tho)./(Tci - Thi))*(Thi - Tho))./(D_iH*L*pi*(Tci - Tco - Thi + Tho)^2)).^2 .* dThi.^2 ...
+            +(- (T.FHot*cpH*rhoH*(Thi - Tho))./(D_iH*L*pi*(Tci - Thi)*(Tci - Tco - Thi + Tho)) - (T.FHot*cpH*rhoH*log((Tco - Tho)./(Tci - Thi))*(Thi - Tho))./(D_iH*L*pi*(Tci - Tco - Thi + Tho)^2)).^2 .* dTci.^2 ...
+            +((T.FHot*cpH*rhoH*(Thi - Tho))./(D_iH*L*pi*(Tco - Tho)*(Tci - Tco - Thi + Tho)) + (T.FHot*cpH*rhoH*log((Tco - Tho)./(Tci - Thi))*(Thi - Tho))./(D_iH*L*pi*(Tci - Tco - Thi + Tho)^2)).^2 .* dTco.^2 ...
+            +((cpH*rhoH*log((Tco - Tho)/(Tci - Thi))*(Thi - Tho))/(D_iH*L*pi*(Tci - Tco - Thi + Tho))).^2 .* dF.^2 ...
+            +((T.FHot*cpH*log((Tco - Tho)/(Tci - Thi))*(Thi - Tho))/(D_iH*L*pi*(Tci - Tco - Thi + Tho))).^2 .* drhoH.^2 ...
+            +(-(T.FHot*cpH*rhoH*log((Tco - Tho)/(Tci - Thi))*(Thi - Tho))/(D_iH^2*L*pi*(Tci - Tco - Thi + Tho))).^2 .* dDiH.^2 ...
+            +((T.FHot*rhoH*log((Tco - Tho)/(Tci - Thi))*(Thi - Tho))/(D_iH*L*pi*(Tci - Tco - Thi + Tho))).^2 .* dcpH.^2 ...
+        ) .* strcmp(string(T.flowDir), "Cocurrent")...
     );
 
-    for flow = ["Cocurrent" 
-    figure();
-    errorbars(Tx.T
+    flows = ["Cocurrent" "Countercurrent"];
+    for i = 1:numel(flows)
+        flow = flows(i);
+        figure();
+        hold on
+            Tx.errorplot('x', 'THot', 'dTHot', 1, Tx.flowDir==flow, 'o-r')
+            Tx.errorplot('x', 'TCold', 'dTCold', 1, Tx.flowDir==flow, 'o-b')
+        hold off
+        xlabel('Distance from Hot Water Inlet, $x$ [m]', 'Interpreter', 'latex');
+        ylabel('Water Temperature, $T$ [K]', 'Interpreter', 'latex');
+        legend({'Hot Water', 'Cold Water'}, 'Interpreter', 'latex');
+        ETable.caption({'\textbf{Note:} \textit{Arrows indicate}', '\textit{$\quad\quad\quad$ flow direction}'});
+        saveas(gcf, char("Figure "+i+".png"), 'png');
+        saveas(gcf, char("Figure "+i+".fig"), 'fig');
+    end
 
     T.add('Inner Tube Heat Transfer Coefficient', 'hin', (kH./DiH) .* 0.023.*(T.ReH.^(4/5)).*(PrH.^(0.3)));
     Nuoo = interp1([0.6,0.8],[5.099,5.24], DiH/DiC, 'linear');

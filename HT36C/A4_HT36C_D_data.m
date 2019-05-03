@@ -28,8 +28,6 @@ function T = A4_HT36C_D_data()
     % Calculated Constant (or assumed constant) Uncertainties:
     dF = 8.33e-7; % m^3/s
     dFH = dF; dFC = dF;
-    dmH = dFH * rhoH;
-    dmC = dFH * rhoC;
     
     % Convert Units:
     T.edit('L', T.L/1000); % mm -> m
@@ -70,6 +68,7 @@ function T = A4_HT36C_D_data()
         
     
     T.add('Hot Fluid Mass Flow Rate [^{kg}/_s]', 'mHot', T.FHot*rhoH);
+    T.add('Uncertainty in Hot Fluid Mass Flow Rate [^{kg}/_s]', 'dmH', sqrt(T.FHot.^2 * drhoH^2 + rhoH^2 * dF^2));
     T.add('Cold Fluid Mass Flow Rate [^{kg}/_s]', 'mCold', T.FCold*rhoC);
     
     T.add('Hot Fluid Reynolds Number', 'ReH', 4 .* rhoH * T.FHot ./ pi ./ DiH ./ muH);
@@ -104,21 +103,21 @@ function T = A4_HT36C_D_data()
             +((cpH.*mH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho).^2) - (cpH.*mH.*(Thi - Tho))./(D.*L.*pi.*(Tco - Thi).*(Tci - Tco + Thi - Tho)) - (cpH.*mH.*log((Tci - Tho)./(Tco - Thi)))./(D.*L.*pi.*(Tci - Tco + Thi - Tho))).^2 .* dThi.^2 ...
             +((cpH.*mH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho).^2) - (cpH.*mH.*(Thi - Tho))./(D.*L.*pi.*(Tci - Tho).*(Tci - Tco + Thi - Tho))).^2 .* dTci.^2 ...
             +((cpH.*mH.*(Thi - Tho))./(D.*L.*pi.*(Tco - Thi).*(Tci - Tco + Thi - Tho)) - (cpH.*mH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho).^2)).^2 .* dTco.^2 ...
-            +((cpH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho))).^2 .* dmH.^2 ...
+            +((cpH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho))).^2 .* T.dmH.^2 ...
             +((cpH.*mH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.^2.*L.*pi.*(Tci - Tco + Thi - Tho))).^2 .* dDiH.^2 ...
             +((mH.*log((Tci - Tho)./(Tco - Thi)).*(Thi - Tho))./(D.*L.*pi.*(Tci - Tco + Thi - Tho))).^2 .* dcpH.^2 ...
         )...
     );
 
     T.add('Inner Tube Heat Transfer Coefficient', 'hin', (kH./DiH) .* 0.023.*(T.ReH.^(4/5)).*(PrH.^(0.3)));
-    Nuoo = interp1([0.6,0.8],[5.099,5.24], DiH/DiC, 'linear');
-    tho = interp1([0.6,0.8],[0.2455,0.298], DiH/DiC, 'linear');
+    Nuoo = interp1([0.6,0.8],[5.099,5.24], DoH/DiC, 'linear');
+    tho = interp1([0.6,0.8],[0.2455,0.298], DoH/DiC, 'linear');
     T.add('Outer Tube Heat Transfer Coefficient', 'hout', (kC./(DiC - DoH)) .* Nuoo ./ (1 - (T.qHot.*DoH./T.qCold./DiH).*tho));
     T.add('Tube Boundary Thermal Resistance', 'Rtube', log(DoH/DiH)./2./pi./kSS./T.L);
     
     T.add('Predicted Overall Heat Transfer Coefficient w.r.t. Inner Surface', 'Upred', 1./(1./T.hin + pi*DiH.*L.*T.Rtube + (DiH./DoH)./T.hout));
-    T.add('Percentage Difference btwn. U_{meas} and U_{pred}', 'PDU', 100*(T.Umeas-T.Upred)./T.Upred);
+    T.add('Percentage Difference btwn. U_{meas} and U_{pred}', 'PDU', 100*(T.Umeas-T.Upred)./T.Umeas);
     
-    % Export Table 7:
-    T.export2Excel('Table7', ["mCold" "mHot" "Tci" "Thi" "Tco" "Tho" "qCold" "qHot" "eps" "DTm" "Umeas" "dUmeas" "hin" "hout" "Rtube" "Upred" "PDU"], 4);
+    % Export Table 9:
+    T.export2Excel('Table9', ["mCold" "mHot" "Tci" "Thi" "Tco" "Tho" "qCold" "qHot" "eps" "DTm" "Umeas" "dUmeas" "hin" "hout" "Rtube" "Upred" "PDU"], 4);
 end
